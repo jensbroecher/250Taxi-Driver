@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "com.taxitwofifty.driver"
+        id          = "com.twofiftytaxi.partner"
         versionCode = "1" 
         version     = "1.0.0" >
 
-    <name>Driver</name>
+    <name>Partner</name>
 
     <description>
-		250Taxi Drivers
+		250 taxi Partners
     </description>
 
     <author href="https://www.250taxi.com" email="info@250taxi.com">
@@ -17,23 +17,27 @@
 	
 	<icon src="icon.png" />
 		
-	<preference name="android-minSdkVersion" value="9" /> 
-	<preference name="android-targetSdkVersion" value="19" />
-	
 	<!-- Core plugins -->
-    <gap:plugin name="org.apache.cordova.device" />
-    <gap:plugin name="org.apache.cordova.device-orientation" />
-    <gap:plugin name="org.apache.cordova.dialogs" />
-    <gap:plugin name="org.apache.cordova.file" />
-    <gap:plugin name="org.apache.cordova.file-transfer" />
-    <gap:plugin name="org.apache.cordova.geolocation" />
-    <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <gap:plugin name="org.apache.cordova.media" />
-    <gap:plugin name="org.apache.cordova.network-information" />
-	
-	<gap:plugin name="com.parse.cordova.core.pushplugin" />
-	<gap:plugin name="de.appplant.cordova.plugin.local-notification" />
-	
-	<access origin="*"/> <!-- allow all pages, use for development -->
+    <gap:plugin name="cordova-plugin-device" source="npm" />
+    <gap:plugin name="cordova-plugin-device-orientation" source="npm" />
+    <gap:plugin name="cordova-plugin-dialogs" source="npm" />
+    <gap:plugin name="cordova-plugin-file" source="npm" />
+    <gap:plugin name="cordova-plugin-file-transfer" source="npm" />
+    <gap:plugin name="cordova-plugin-geolocation" source="npm" />
+    <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
+    <gap:plugin name="cordova-plugin-media" source="npm" />
+    <gap:plugin name="cordova-plugin-whitelist" source="npm" />
+    
+    <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
+
+    <gap:plugin name="onesignal-cordova-plugin-pgb-compat" source="npm" />
+    <gap:plugin name="cordova-plugin-googleplayservices" source="npm" />
+    <gap:plugin name="cordova-plugin-android-support-v4" source="npm" />
+        
+    <gap:plugin name='org.crosswalk.engine' version='1.3.0' source='pgb' />
+        
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
+    <access origin="*" />
 
 </widget>

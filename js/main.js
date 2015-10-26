@@ -65,7 +65,7 @@ cordova.plugins.barcodeScanner.scan(
         //  alert(is_cancelled);
           
           if (is_cancelled == true) {
-              alert("Scanvorgang abgebrochen. Bitte erneut versuchen!")
+              alert("Scanning cancelled. Please try again.")
           }
           else if (is_cancelled == false) {
           
@@ -87,5 +87,5 @@ cordova.plugins.barcodeScanner.scan(
     
 function namefound() {
 person = localStorage.getItem("person");
-alert("Willkommen "+person+"");
+alert("Welcome "+person+"");
 }

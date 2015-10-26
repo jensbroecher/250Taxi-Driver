@@ -1,6 +1,7 @@
 body {
     background-color: gainsboro;
     text-align: center;
+    padding-top: 3px;
 }
 #logo {
     width: 60%;

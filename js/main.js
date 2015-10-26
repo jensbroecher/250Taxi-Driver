@@ -94,36 +94,3 @@ alert(codefromqr_type);
 }
 
 
-function check_login() {
-    
-if (partner_type == "taxi") {
-    
-$.get( "http://250taxi.com/db/check-username-login.php?username="+username+"", function( data ) {
-
-        if (data == "account_found") {
-            
-                $.get( "http://250taxi.com/db/check-pin.php?pin="+loginpin+"", function( data ) {
-
-                if (data == "pin_found") {
-                localStorage.setItem("rememberuser","Yes");
-                localStorage.setItem("username",username);
-                    
-                document.location.href = '../gotostart.html';
-                }
-                else if (data == "pin_not_found") {
-                alert("Sorry, your PIN was incorrect. Please check your PIN or contact support.");
-                    
-        }
-    });
-            
-        }
-        else if (data == "account_not_found") {
-            alert("Sorry, your account was not found. Please check your username or contact support.");
-        }
-    });
-
-}
-}
-else {
-    alert('Coming soon...')
-}

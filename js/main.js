@@ -71,7 +71,7 @@ cordova.plugins.barcodeScanner.scan(
           }
           else if (is_cancelled == false) {
           
-          localStorage.setItem("person", result.text);
+          localStorage.setItem("codefromqr", result.text);
           
           namefound();
         }
@@ -85,12 +85,18 @@ cordova.plugins.barcodeScanner.scan(
 }
     
 function namefound() {
-person = localStorage.getItem("person");
-alert("Welcome "+person+"");
+
+var codefromqr = localStorage.getItem("codefromqr");
+var codefromqr_type = codefromqr_type.substr (0, 3);
+
+alert(codefromqr_type);
+
 }
 
 
 function check_login() {
+    
+if (partner_type == "taxi") {
     
 $.get( "http://250taxi.com/db/check-username-login.php?username="+username+"", function( data ) {
 
@@ -116,4 +122,8 @@ $.get( "http://250taxi.com/db/check-username-login.php?username="+username+"", f
         }
     });
 
+}
+}
+else {
+    alert('Coming soon...')
 }

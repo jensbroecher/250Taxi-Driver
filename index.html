@@ -8,6 +8,7 @@
 <link href="css/main.css" rel="stylesheet" type="text/css">
 
 <script src="js/jquery.min.js"></script>
+<script src="cordova.js"></script>
 <script src="js/materialize.js"></script>
 <script src="js/preventreload.js"></script>
 <script src="js/main.js"></script>
@@ -74,6 +75,15 @@ $(document).ready(function() {
     </div>
     
     </form>
+    
+<div class="row">
+      <div class="col s12 m5">
+        <div class="card-panel white">
+        <img id="scan_qr" src="img/scan_qr.png">
+          <a id="login_btn_go" class="waves-effect waves-light btn taxi250" onclick="scancode();">Scan QR-Code</a>  
+        </div>
+      </div>
+    </div>
     
 </div>
 

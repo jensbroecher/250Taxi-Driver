@@ -12,6 +12,10 @@ body {
     margin-right: 5px;
     margin-left: 5px;
 }
+#scan_qr {
+    width: 80px;
+    vertical-align: middle;
+}
 
 
 

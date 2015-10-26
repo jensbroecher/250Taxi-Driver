@@ -48,3 +48,44 @@ function login_form_go() {
     var pin = document.getElementById('pin').value;
     alert(""+partner_type+" "+id_no+" "+pin+"");
 }
+
+
+
+function scancode() {
+    
+cordova.plugins.barcodeScanner.scan(
+      function (result) {
+        // alert("We got a barcode\n" +
+        //   "Result: " + result.text + "\n" +
+        //   "Format: " + result.format + "\n" +
+        //   "Cancelled: " + result.cancelled);
+          
+          is_cancelled = result.cancelled;
+          
+        //  alert(is_cancelled);
+          
+          if (is_cancelled == true) {
+              alert("Scanvorgang abgebrochen. Bitte erneut versuchen!")
+          }
+          else if (is_cancelled == false) {
+          
+          document.getElementById("aniwrap").style.display = "block";
+          document.getElementById("scancodebutton").style.display = "none";
+          
+          localStorage.setItem("person", result.text);
+          
+          namefound();
+        }
+          
+      }, 
+      function (error) {
+          alert("Scanning failed: " + error);
+      }
+   );
+
+}
+    
+function namefound() {
+person = localStorage.getItem("person");
+alert("Willkommen "+person+"");
+}

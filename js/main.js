@@ -43,10 +43,12 @@ $('#login_btn_go').click(function(e){
 });
 
 function login_form_go() {
-    var partner_type = document.getElementById('partner_type').value;
-    var id_no = document.getElementById('id_no').value;
-    var pin = document.getElementById('pin').value;
-    alert(""+partner_type+" "+id_no+" "+pin+"");
+
+    partner_type = document.getElementById('partner_type').value;
+    id_no = document.getElementById('id_no').value;
+    pin = document.getElementById('pin').value;
+    
+    check_login();
 }
 
 
@@ -69,9 +71,6 @@ cordova.plugins.barcodeScanner.scan(
           }
           else if (is_cancelled == false) {
           
-          document.getElementById("aniwrap").style.display = "block";
-          document.getElementById("scancodebutton").style.display = "none";
-          
           localStorage.setItem("person", result.text);
           
           namefound();
@@ -88,4 +87,33 @@ cordova.plugins.barcodeScanner.scan(
 function namefound() {
 person = localStorage.getItem("person");
 alert("Welcome "+person+"");
+}
+
+
+function check_login() {
+    
+$.get( "http://250taxi.com/db/check-username-login.php?username="+username+"", function( data ) {
+
+        if (data == "account_found") {
+            
+                $.get( "http://250taxi.com/db/check-pin.php?pin="+loginpin+"", function( data ) {
+
+                if (data == "pin_found") {
+                localStorage.setItem("rememberuser","Yes");
+                localStorage.setItem("username",username);
+                    
+                document.location.href = '../gotostart.html';
+                }
+                else if (data == "pin_not_found") {
+                alert("Sorry, your PIN was incorrect. Please check your PIN or contact support.");
+                    
+        }
+    });
+            
+        }
+        else if (data == "account_not_found") {
+            alert("Sorry, your account was not found. Please check your username or contact support.");
+        }
+    });
+
 }

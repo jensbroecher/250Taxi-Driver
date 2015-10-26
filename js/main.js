@@ -13,7 +13,7 @@ $( "#login_admin_btn" ).click(function() {
 var login_admin = prompt('Please enter your login credentials:');
 if(login_admin =='250taxiadmin')
 {
-	window.open('http://250taxi.com/admin/', '_system');   
+	window.open('http://250taxi.com/admin/', '_system'); 
 }
 else
 {

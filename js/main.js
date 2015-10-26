@@ -8,6 +8,18 @@ $( "#view_start" ).fadeOut( "slow", function() {
   });
 });
 });
+    
+$( "#login_admin_btn" ).click(function() {
+var login_admin = prompt('Please enter your login credentials:');
+if(login_admin =='250taxiadmin')
+{
+	window.open('http://250taxi.com/admin/', '_system');   
+}
+else
+{
+	alert('Unknown account. Please try again.');
+}
+});
 
 $(document).on('submit','#login_form',function (e) {
     //prevent the form from doing a submit

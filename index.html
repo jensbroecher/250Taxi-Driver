@@ -3,20 +3,76 @@
 <head>
 <meta charset="utf-8">
     
-<style>
-    body {
-    padding: 0px;
-    margin: 0px;
-    }    
-</style>
+<link href="css/animate.css" rel="stylesheet" type="text/css">
+<link href="css/materialize.css" rel="stylesheet" type="text/css">
+<link href="css/main.css" rel="stylesheet" type="text/css">
+
+<script src="js/jquery.min.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/preventreload.js"></script>
+<script src="js/main.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+<script type="text/javascript">
+    
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+screen.lockOrientation('portrait');
+}
+
+$(document).ready(function() {
+    $('select').material_select();
+});
+
+</script>
+
 </head>
 
-<body id="body" onLoad="" style="background-color:#FFF">
-
-<img src="splash day.jpg" style="width:100%;">
+<body id="body">
+    
+<div id="view_start">
+<img id="logo" src="icon.png">
+<a id="login_btn" class="waves-effect waves-light btn taxi250"><i class="material-icons left">account_box</i>Login</a>
+</div>
+    
+<div id="view_login">
+    
+<form id="login_form" action="javascript:login_form_go();" class="col s12">
+    
+<div class="row">
+      <div class="col s12 m5">
+        <div class="card-panel white">
+          
+<div class="input-field col s12">
+    <select id="partner_type" required="" aria-required="true">
+      <option value="" disabled selected>Choose partner type</option>
+      <option value="taxi">Taxi</option>
+      <option value="courier">Courier</option>
+      <option value="moto">Moto</option>
+    </select>
+</div>
+            
+<div class="input-field col s12">
+          <input id="id_no" type="text" required="" aria-required="true" class="validate">
+          <label for="id_no">ID No.</label>
+</div>
+            
+<div class="input-field col s12">
+          <input id="pin" type="number" required="" aria-required="true" maxlength = "4" pattern=".{4,}" class="validate">
+          <label for="pin">PIN</label>
+</div>
+    
+<a id="login_btn_go" class="waves-effect waves-light btn taxi250"><i class="material-icons left">account_box</i>Login</a>
+            
+        </div>
+      </div>
+    </div>
+    
+    </form>
+    
+</div>
 
 </body>
 </html>

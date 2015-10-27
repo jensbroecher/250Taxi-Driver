@@ -94,7 +94,10 @@ cordova.plugins.barcodeScanner.scan(
           //  alert("Test");
           
           localStorage.setItem("codefromqr", result.text);
-          namefound();
+              
+       alert(result.text);
+    
+         // namefound();
         }
           
       }, 

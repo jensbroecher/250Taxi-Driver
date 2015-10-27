@@ -33,7 +33,7 @@ $('#login_btn_go').click(function(e){
   var $theForm = $(this).closest('form');
   //Some browsers don't implement checkValidity
   if (( typeof($theForm[0].checkValidity) == "function" ) && !$theForm[0].checkValidity()) {
-    alert('Account not found. Please check your login or contact support.');
+    alert('Account not found. Please check your ID Number and PIN or contact support.');
      return;
   }
 
@@ -43,12 +43,27 @@ $('#login_btn_go').click(function(e){
 });
 
 function login_form_go() {
-
-    partner_type = document.getElementById('partner_type').value;
-    id_no = document.getElementById('id_no').value;
-    pin = document.getElementById('pin').value;
     
+partner_type = document.getElementById('partner_type').value;
+id_no = document.getElementById('id_no').value;
+pin = document.getElementById('pin').value;
+    
+if (partner_type == "TX_") {
+    
+$.get( "http://250taxi.com/db/partner/taxi_id_check_if_exists.php?id_no="+id_no+"", function( data ) {
+    
+if (data == "account_found") { 
     check_login();
+}
+if (data == "account_not_found") { 
+    alert('Account not found. Please try again.');
+}
+
+});
+}
+else {
+    alert('Account type not supported yet.');
+}
 }
 
 
@@ -97,14 +112,30 @@ var codefromqr_id = codefromqr.substr (3);
 
 function check_login() {
 
-if (partner_type == "TX_") { 
-$.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id="+id_no+"", function( data ) {
+if (partner_type == "TX_") {
     
-var login_from_qr_pin = prompt('Hi, '.data.'.\nPlease enter your PIN:');
+// alert(id_no);
+
+$.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
     
+var login_from_qr_pin = prompt("Hi, "+data+".\nPlease enter your PIN:",""+pin+"");
+    
+if (login_from_qr_pin === "") {
+    alert('Please enter your PIN!');
+    check_login();
+} else if (login_from_qr_pin) {
+    $.get( "http://250taxi.com/db/partner/taxi_id_check_pin.php?pin="+pin+"", function( data ) {
+        alert(data);
+    });
+} else {
+    return;
+}
+
+
 });
 }
 else {
-    alert('Coming soon...')
+    alert('Account type not supported yet.');
 }
+    
 }

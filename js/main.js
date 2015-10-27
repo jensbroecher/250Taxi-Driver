@@ -91,11 +91,11 @@ cordova.plugins.barcodeScanner.scan(
           }
           else if (is_cancelled == false) {
               
-          //  alert("Test");
+            //  alert("Test");
           
           localStorage.setItem("codefromqr", result.text);
               
-            alert(result.text);
+            // alert(result.text);
     
             namefound();
         }
@@ -115,7 +115,7 @@ var codefromqr = atob(codefromqr);
 var codefromqr_type = codefromqr.substr (0, 3);
 var codefromqr_id = codefromqr.substr (3);
     
-alert("Type: "+codefromqr_type+"\nID: "+codefromqr_id+"");
+// alert("Type: "+codefromqr_type+"\nID: "+codefromqr_id+"");
     
 partner_type = codefromqr_type;
 id_no = codefromqr_id;
@@ -129,18 +129,26 @@ function check_login() {
 
 if (partner_type == "TX_") {
     
-alert(id_no);
+// alert(id_no);
 
 $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
     
-var login_from_qr_pin = prompt("Hi, "+data+".\nPlease enter your PIN:",""+pin+"");
+var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
     
 if (login_from_qr_pin === "") {
     alert('Please enter your PIN!');
     check_login();
 } else if (login_from_qr_pin) {
     $.get( "http://250taxi.com/db/partner/taxi_id_check_pin.php?pin="+pin+"", function( data ) {
-        alert(data);
+        
+        if (data == pin) {
+              alert("Pin correct! Welcome!");
+          }
+          else if (data != pin) {
+            alert("PIN incorrect. Please try again.");
+            check_login();
+          }
+        
     });
 } else {
     return;

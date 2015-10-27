@@ -153,8 +153,9 @@ if (login_from_qr_pin === "") {
         if (data == "pin_correct") {
             
             $( "#view_login" ).fadeOut( "slow", function() {
-                var id_no = localStorage.getItem("id_no");
-                alert(id_no);
+                $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
+                
+                });
             });
             
         }

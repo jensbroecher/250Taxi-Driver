@@ -139,17 +139,20 @@ if (login_from_qr_pin === "") {
     alert('Please enter your PIN!');
     check_login();
 } else if (login_from_qr_pin) {
+    
+    alert(pin);
+    
     $.get( "http://250taxi.com/db/partner/taxi_id_check_pin.php?pin="+pin+"", function( data ) {
         
         alert(data);
         
         if (data == "pin_correct") {
               alert("Pin correct! Welcome!");
-          }
-        else if (data == "pin_false") {
+        }
+        if (data == "pin_false") {
             alert("PIN incorrect. Please try again.");
             check_login();
-          }
+        }
     });
 } else {
     return;

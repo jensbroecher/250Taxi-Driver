@@ -151,10 +151,12 @@ if (login_from_qr_pin === "") {
         // alert(data);
         
         if (data == "pin_correct") {
+            
             $( "#view_login" ).fadeOut( "slow", function() {
-                var localStorage.getItem("id_no");
+                var id_no = localStorage.getItem("id_no");
                 alert(id_no);
             });
+            
         }
         if (data == "pin_false") {
             alert("PIN incorrect. Please try again.");

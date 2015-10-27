@@ -97,7 +97,7 @@ cordova.plugins.barcodeScanner.scan(
               
             alert(result.text);
     
-         // namefound();
+            namefound();
         }
           
       }, 
@@ -117,11 +117,11 @@ var codefromqr_id = codefromqr.substr (3);
     
 alert("Type: "+codefromqr_type+"\nID: "+codefromqr_id+"");
     
-partner_type = codefromqr_type;
-id_no = codefromqr_id;
+// partner_type = codefromqr_type;
+// id_no = codefromqr_id;
 // pin = "";
 
-check_login();
+// check_login();
 
 }
 

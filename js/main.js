@@ -87,13 +87,24 @@ cordova.plugins.barcodeScanner.scan(
 function namefound() {
 
 var codefromqr = localStorage.getItem("codefromqr");
-
 var codefromqr = atob(codefromqr);
-
 var codefromqr_type = codefromqr.substr (0, 3);
-    
 var codefromqr_id = codefromqr.substr (3);
     
-alert("Type: "+codefromqr_type+"\nID: "+codefromqr_id+"");
+// alert("Type: "+codefromqr_type+"\nID: "+codefromqr_id+"");
 
+}
+
+function check_login() {
+
+if (partner_type == "TX_") { 
+$.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id="+id_no+"", function( data ) {
+    
+var login_from_qr_pin = prompt('Hi, '.data.'.\nPlease enter your PIN:');
+    
+});
+}
+else {
+    alert('Coming soon...')
+}
 }

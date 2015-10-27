@@ -128,8 +128,10 @@ check_login();
 function check_login() {
 
 if (partner_type == "TX_") {
-    
+
 // alert(id_no);
+
+localStorage.setItem("id_no", id_no);
 
 $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
     
@@ -149,7 +151,10 @@ if (login_from_qr_pin === "") {
         // alert(data);
         
         if (data == "pin_correct") {
-            alert("Pin correct! Welcome!");
+            $( "#view_login" ).fadeOut( "slow", function() {
+                var localStorage.getItem("id_no");
+                alert(id_no);
+            });
         }
         if (data == "pin_false") {
             alert("PIN incorrect. Please try again.");

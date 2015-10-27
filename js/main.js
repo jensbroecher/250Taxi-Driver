@@ -135,19 +135,21 @@ $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", fun
     
 var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
     
+ pin = login_from_qr_pin;
+    
 if (login_from_qr_pin === "") {
     alert('Please enter your PIN!');
     check_login();
 } else if (login_from_qr_pin) {
     
-    alert(pin);
+    // alert(pin);
     
     $.get( "http://250taxi.com/db/partner/taxi_id_check_pin.php?pin="+pin+"", function( data ) {
         
-        alert(data);
+        // alert(data);
         
         if (data == "pin_correct") {
-              alert("Pin correct! Welcome!");
+            alert("Pin correct! Welcome!");
         }
         if (data == "pin_false") {
             alert("PIN incorrect. Please try again.");

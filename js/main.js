@@ -141,6 +141,8 @@ if (login_from_qr_pin === "") {
 } else if (login_from_qr_pin) {
     $.get( "http://250taxi.com/db/partner/taxi_id_check_pin.php?pin="+pin+"", function( data ) {
         
+        alert(data);
+        
         if (data == "pin_correct") {
               alert("Pin correct! Welcome!");
           }

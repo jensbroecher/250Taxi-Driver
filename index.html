@@ -3,19 +3,17 @@
 <head>
 <meta charset="utf-8">
     
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-    
 <link href="css/animate.css" rel="stylesheet" type="text/css">
 <link href="css/materialize.css" rel="stylesheet" type="text/css">
 <link href="css/main.css" rel="stylesheet" type="text/css">
+    
+<script src="js/map.js"></script>
 
 <script src="js/jquery.min.js"></script>
 <script src="cordova.js"></script>
 <script src="js/materialize.js"></script>
 <script src="js/preventreload.js"></script>
 <script src="js/main.js"></script>
-<script src="js/map.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
@@ -94,9 +92,68 @@ $(document).ready(function() {
 </div>
     
 <div id="view_taxi_waiting">
+    
+<style>
+#radar, #radar_offline {
+    background-color: black;
+    width: 100%;
+    color: white;
+}    
+</style>
+    
+    <div id="radar"><br>
+    <img src="img/220.gif" style="width:60%;"><br>
+        Waiting for passengers...<br>You are visible!<br><br>
+    </div>
+    
+    <div id="radar_offline" style="display:none;"><br>
+    <img src="img/offline.png" style="width:60%;"><br>
+        You have gone offline.<br>Passengers can't find you!<br><br>
+    </div>
+    
+    <br><br>
 
-<div id="map"></div>
+<script>
+    $(document).ready(function() {
+        
+        $( "#toggle_online_checkbox").prop('checked', true);
+        
+        $( "#toggle_online" ).click(function() {
+        var toggle_online_checkedValue = document.getElementById('toggle_online_checkbox').checked;
+        localStorage.setItem("toggle_online",toggle_online_checkedValue);
+        set_online_status();
+        });
+    });
+    
+    function set_online_status() {
+        var toggle_online = localStorage.getItem("toggle_online");
+        // alert(toggle_online);
+        if (toggle_online == "false") {
+            document.getElementById("radar_offline").style.display = "block";
+            document.getElementById("radar").style.display = "none";
+        }
+        if (toggle_online == "true") {
+            document.getElementById("radar_offline").style.display = "none";
+            document.getElementById("radar").style.display = "block";
+        }
+            
+    }
+</script>
 
+    <!-- Switch -->
+  <div id="toggle_online" class="switch">
+    <label>
+      Offline
+      <input id="toggle_online_checkbox" type="checkbox">
+      <span class="lever"></span>
+      Online
+    </label>
+  </div>
+    
+    <br><br>
+    <a onclick="location.reload();" class="waves-effect waves-light btn red">Logout</a>
+    <br><br>
+    
 </div>
 
 </body>

@@ -6,10 +6,6 @@ html, body, #map {
 			height: 100%;
             width: 100%;
 }
-* {
--webkit-tap-highlight-color: rgba(0,0,0,0);
--webkit-tap-highlight-color: transparent;
-}
 #logo {
     width: 60%;
     margin-top: 20px;
@@ -24,11 +20,18 @@ html, body, #map {
     width: 80px;
     vertical-align: middle;
 }
+* {
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+-webkit-tap-highlight-color: transparent;
+}
 
 
 
 
-#view_login, #view_start {
+#view_login {
     display: none;
+    padding-top: 3px;
+}
+#view_start {
     padding-top: 3px;
 }

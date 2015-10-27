@@ -154,7 +154,7 @@ if (login_from_qr_pin === "") {
             
             $( "#view_login" ).fadeOut( "slow", function() {
                 $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
-                
+                    myVar = setInterval(function(){ myTimer() }, 10000);
                 });
             });
             

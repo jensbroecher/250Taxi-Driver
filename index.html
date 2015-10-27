@@ -91,14 +91,25 @@ $(document).ready(function() {
     
 </div>
     
-<div id="view_taxi_waiting">
+<div id="view_taxi_waiting" style="display:none;">
     
 <style>
 #radar, #radar_offline {
     background-color: black;
     width: 100%;
     color: white;
-}    
+}
+.infobox {
+    background-image: url(img/information-outline.svg);
+    background-repeat: no-repeat;
+    background-size: auto 80%;
+    background-position: 3% center;
+    padding-left: 60px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: left;
+    background-color: white;
+}
 </style>
     
     <div id="radar"><br>
@@ -109,6 +120,10 @@ $(document).ready(function() {
     <div id="radar_offline" style="display:none;"><br>
     <img src="img/offline.png" style="width:60%;"><br>
         You have gone offline.<br>Passengers can't find you!<br><br>
+    </div>
+    
+    <div class="infobox">
+    The app has to stay open for best performance.
     </div>
     
     <br><br>
@@ -131,13 +146,25 @@ $(document).ready(function() {
         if (toggle_online == "false") {
             document.getElementById("radar_offline").style.display = "block";
             document.getElementById("radar").style.display = "none";
+            localStorage.setItem("status", "offline");
         }
         if (toggle_online == "true") {
             document.getElementById("radar_offline").style.display = "none";
             document.getElementById("radar").style.display = "block";
+            localStorage.setItem("status", "online");
         }
             
     }
+
+function myTimer() {
+
+status = localStorage.getItem("status");
+
+$.get( "http://250taxi.com/db/partner/taxi_report_status.php?id_no="+id_no+"&status="+status+"", function( data ) {
+
+});
+}
+
 </script>
 
     <!-- Switch -->
@@ -150,9 +177,11 @@ $(document).ready(function() {
     </label>
   </div>
     
-    <br><br>
+    <br>
+    
     <a onclick="location.reload();" class="waves-effect waves-light btn red">Logout</a>
-    <br><br>
+    
+    <br>
     
 </div>
 

@@ -9,6 +9,11 @@ $( "#view_start" ).fadeOut( "slow", function() {
 });
 });
     
+$( "#login_btn_register" ).click(function() {
+    alert('Please register on our mobile website.');
+	window.open('http://250taxi.com', '_system'); 
+});
+    
 $( "#login_admin_btn" ).click(function() {
 var login_admin = prompt('Please enter your login credentials:');
 if(login_admin =='250taxiadmin')

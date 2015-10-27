@@ -153,7 +153,6 @@ if (login_from_qr_pin === "") {
     return;
 }
 
-
 });
 }
 else {

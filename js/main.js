@@ -91,11 +91,10 @@ cordova.plugins.barcodeScanner.scan(
           }
           else if (is_cancelled == false) {
               
-            alert("Test");
+          //  alert("Test");
           
-          // localStorage.setItem("codefromqr", result.text);
-          
-          // namefound();
+          localStorage.setItem("codefromqr", result.text);
+          namefound();
         }
           
       }, 
@@ -113,13 +112,13 @@ var codefromqr = atob(codefromqr);
 var codefromqr_type = codefromqr.substr (0, 3);
 var codefromqr_id = codefromqr.substr (3);
     
-// alert("Type: "+codefromqr_type+"\nID: "+codefromqr_id+"");
+alert("Type: "+codefromqr_type+"\nID: "+codefromqr_id+"");
     
-// partner_type = codefromqr_type;
-// id_no = codefromqr_id;
+partner_type = codefromqr_type;
+id_no = codefromqr_id;
 // pin = "";
 
-// check_login();
+check_login();
 
 }
 
@@ -127,7 +126,7 @@ function check_login() {
 
 if (partner_type == "TX_") {
     
-// alert(id_no);
+alert(id_no);
 
 $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
     

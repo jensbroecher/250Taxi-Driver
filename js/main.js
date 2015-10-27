@@ -144,11 +144,10 @@ if (login_from_qr_pin === "") {
         if (data == "pin_correct") {
               alert("Pin correct! Welcome!");
           }
-          else if (data == "pin_false") {
+        else if (data == "pin_false") {
             alert("PIN incorrect. Please try again.");
             check_login();
           }
-        
     });
 } else {
     return;

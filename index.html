@@ -132,6 +132,7 @@ $(document).ready(function() {
     $(document).ready(function() {
         
         $( "#toggle_online_checkbox").prop('checked', true);
+        localStorage.setItem("status", "online");
         
         $( "#toggle_online" ).click(function() {
         var toggle_online_checkedValue = document.getElementById('toggle_online_checkbox').checked;
@@ -155,14 +156,65 @@ $(document).ready(function() {
         }
             
     }
+    
 
-function myTimer() {
+    
+function getLocationUpdate(){
+navigator.geolocation.getCurrentPosition(showPosition);
+}
+    
+function showPosition(position) {
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    console.log(latitude);
+    console.log(longitude);
+    
+    status = localStorage.getItem("status");
+    
+    $.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status="+status+"&latitude="+latitude+"&longitude="+longitude+"", function( data ) {
+        
+console.log(data);
 
-status = localStorage.getItem("status");
+var d1 = data.substring(0,1);
+// var d2 = data.substring(3,4);
+// var d3 = data.substring(4,5);
+// var d4 = data.substring(5);
+        
+// console.log("d1: "+d1+" d2: "+d2+" d3: "+d3+" d4: "+d4+"");
+console.log("d1: "+d1+"");
+        
+// No passenger request - Show waiting screen
+if (d1 == "0") {
+    $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
+        $( "#view_taxi_journeyrequest" ).fadeIn( "slow", function() {
+            document.getElementById("journeyrequest_passenger_cards").className = "row";
+        });
+  });
+}
 
-$.get( "http://250taxi.com/db/partner/taxi_report_status.php?id_no="+id_no+"&status="+status+"", function( data ) {
+// Passenger has requested journey - Get details and show options
+if (d1 == "1") {
+    $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
+    $( "#view_taxi_journeyrequest" ).fadeIn();
+    document.getElementById("journeyrequest_passenger_cards").className = "row animated zoomIn";
+    });
+    
+    $( "#journeyrequest_passenger_name" ).load( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"", function() {
+  // alert( "Load was performed." );
+});
+    
+var media = new Media("http://250taxi.com/sounds/callcab.mp3", null, mediaError);
+media.play();
+
+}
 
 });
+}
+
+function myTimer() {
+    
+getLocationUpdate();
+
 }
 
 </script>
@@ -182,6 +234,34 @@ $.get( "http://250taxi.com/db/partner/taxi_report_status.php?id_no="+id_no+"&sta
     <a onclick="location.reload();" class="waves-effect waves-light btn red">Logout</a>
     
     <br>
+    
+</div>
+    
+
+    
+
+<style>
+    #journeyrequest_passenger_name {
+        text-transform: uppercase;
+    }    
+</style>
+
+<div id="view_taxi_journeyrequest" style="display:none; margin-top: 3px;">
+    
+    <div id="journeyrequest_passenger_cards" class="row">
+        <div class="col s12 m6">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Journey Request</span>
+              <p><div id="journeyrequest_passenger_name"></div></p>
+            </div>
+            <div class="card-action">
+              <a href="#">Accept</a>
+              <a href="#">Decline</a>
+            </div>
+          </div>
+        </div>
+      </div>
     
 </div>
 

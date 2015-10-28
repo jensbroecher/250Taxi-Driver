@@ -199,7 +199,12 @@ if (d1 == "1") {
     document.getElementById("journeyrequest_passenger_cards").className = "row animated zoomIn";
     });
     
-    $( "#journeyrequest_passenger_name" ).load( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"", function() {
+    $.get( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"",  function( data ) {
+        
+journeyrequest_passenger_name = data;
+
+document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
+
 var myAudio = document.getElementById("snd_hey_taxi");
 myAudio.play();
 });

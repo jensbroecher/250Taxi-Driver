@@ -200,11 +200,9 @@ if (d1 == "1") {
     });
     
     $( "#journeyrequest_passenger_name" ).load( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"", function() {
-  // alert( "Load was performed." );
+var myAudio = document.getElementById("snd_hey_taxi");
+myAudio.play();
 });
-    
-var media = new Media("http://250taxi.com/sounds/callcab.mp3", null, mediaError);
-media.play();
 
 }
 
@@ -247,6 +245,8 @@ getLocationUpdate();
 </style>
 
 <div id="view_taxi_journeyrequest" style="display:none; margin-top: 3px;">
+    
+<audio id="snd_hey_taxi" style="display:none;" src="http://250taxi.com/sounds/callcab.mp3"></audio>
     
     <div id="journeyrequest_passenger_cards" class="row">
         <div class="col s12 m6">

@@ -1,4 +1,10 @@
 $(document).ready(function() {
+    
+var loggedin = localStorage.getItem('loggedin');
+    
+if (loggedin == 'Yes') {
+    wasloggedin();
+}
 
 $( "#login_btn" ).click(function() {
     
@@ -151,6 +157,8 @@ if (login_from_qr_pin === "") {
         // alert(data);
         
         if (data == "pin_correct") {
+
+            localStorage.setItem('loggedin','Yes');
             
             $( "#view_login" ).fadeOut( "slow", function() {
                 $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
@@ -174,4 +182,10 @@ else {
     alert('Account type not supported yet.');
 }
     
+}
+
+function wasloggedin() {
+    document.getElementById('view_start').style.display = 'none';
+    document.getElementById('view_taxi_waiting').style.display = 'block';
+    myVar = setInterval(function(){ myTimer() }, 10000);
 }

@@ -26,9 +26,29 @@ screen.lockOrientation('portrait');
 }
 
 $(document).ready(function() {
+    
+$.get( "http://250taxi.com/db/partner/check_app_update.php?check=driver",  function( data ) {
+    var currentversion = "1";
+    var serverversion = data;
+    if (currentversion < serverversion) {
+        alert("Your app is outdated. Please install the update from google play.");
+        window.open('http://250taxi.com/getupdate/driver.php', '_system');
+    }
+});
+    
     $('select').material_select();
 });
 
+</script>
+    
+<script>
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    screen.lockOrientation('portrait');
+    document.addEventListener("backbutton", function (e) {
+        e.preventDefault();
+    }, false );
+}
 </script>
 
 </head>
@@ -131,6 +151,8 @@ $(document).ready(function() {
 <script>
     $(document).ready(function() {
         
+    
+        
         $( "#toggle_online_checkbox").prop('checked', true);
         localStorage.setItem("status", "online");
         
@@ -171,9 +193,15 @@ function showPosition(position) {
     
     status = localStorage.getItem("status");
     
+    var loggedin = localStorage.getItem('loggedin');
+    
+    if (loggedin == 'Yes') {
+        id_no = localStorage.getItem("id_no");
+    }
+
     $.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status="+status+"&latitude="+latitude+"&longitude="+longitude+"", function( data ) {
         
-console.log(data);
+// console.log(data);
 
 var d1 = data.substring(0,1);
 // var d2 = data.substring(3,4);
@@ -185,8 +213,8 @@ console.log("d1: "+d1+"");
         
 // No passenger request - Show waiting screen
 if (d1 == "0") {
-    $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
-        $( "#view_taxi_journeyrequest" ).fadeIn( "slow", function() {
+    $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
+        $( "#view_taxi_journeyrequest" ).fadeOut( "slow", function() {
             document.getElementById("journeyrequest_passenger_cards").className = "row";
         });
   });
@@ -204,6 +232,22 @@ if (d1 == "1") {
 journeyrequest_passenger_name = data;
 
 document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
+        
+var passenger_id = document.getElementById("passenger_id").innerHTML;
+// alert(passenger_id);
+        
+var passenger_gps_lat = document.getElementById("passenger_gps_lat").innerHTML;
+// alert(passenger_gps_lat);
+        
+var passenger_gps_long = document.getElementById("passenger_gps_long").innerHTML;
+// alert(passenger_gps_long);
+        
+$('<img src="https://maps.googleapis.com/maps/api/staticmap?center='+passenger_gps_lat+','+passenger_gps_long+'&zoom=16&size=300x300&maptype=roadmap&markers=color:blue%7Clabel:P%7C'+passenger_gps_lat+','+passenger_gps_long+'&key=AIzaSyDb1A29Jk9FtTZSiHDlfUPM9mHM42cAiRo">').load(function() {
+    $("#passenger_on_map").empty();
+    $(this).appendTo('#passenger_on_map');
+});
+        
+
 
 var myAudio = document.getElementById("snd_hey_taxi");
 myAudio.play();
@@ -234,7 +278,7 @@ getLocationUpdate();
     
     <br>
     
-    <a onclick="location.reload();" class="waves-effect waves-light btn red">Logout</a>
+    <a onclick="localStorage.removeItem('loggedin');location.reload();" class="waves-effect waves-light btn red">Logout</a>
     
     <br>
     
@@ -261,14 +305,38 @@ getLocationUpdate();
               <p><div id="journeyrequest_passenger_name"></div></p>
             </div>
             <div class="card-action">
-              <a href="#">Accept</a>
-              <a href="#">Decline</a>
+              <a onclick="request_accept();" href="#">Accept</a>
+              <a onclick="request_decline();" href="#">Decline</a>
             </div>
           </div>
         </div>
       </div>
     
+    <style>
+        #passenger_on_map img {
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            border: 3px solid white;
+        }
+    </style>
+    
+    <div id="passenger_on_map"></div>
+    
 </div>
+    
+<script>
+    function request_accept() {
+       location.reload();
+    }
+    function request_decline() {
+
+        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=decline&id_no="+id_no+"",  function( data ) {
+            document.getElementById('view_taxi_journeyrequest').style.display = 'none';
+            document.getElementById('view_taxi_waiting').style.display = 'block';
+        });
+    }
+</script>
 
 </body>
 </html>

@@ -139,21 +139,38 @@ function onDeviceReady() {
     
     <div id="radar_offline" style="display:none;"><br>
     <img src="img/offline.png" style="width:60%;"><br>
-        You have gone offline.<br>Passengers can't find you!<br><br>
+        You aren't visible.<br>Passengers can't find you!<br><br>
     </div>
     
     <div class="infobox">
-    The app has to stay open for best performance.
+    The app has to stay open for best performance
     </div>
     
-    <br><br>
+
 
 <script>
     $(document).ready(function() {
         
+    $( "#play_choice_checkbox").prop('checked', true);
+        localStorage.setItem("play_choice", "Yes");
+
+        $( "#play_choice_checkbox" ).click(function() {
+        var play_choice_checkboxValue = document.getElementById('play_choice_checkbox').checked;
+    
+        if (play_choice_checkboxValue == false) {
+            localStorage.setItem("play_choice","No");
+        }
+        if (play_choice_checkboxValue == true) {
+            localStorage.setItem("play_choice","Yes");
+        }
+
+        });
+        
+
+    
     
         
-        $( "#toggle_online_checkbox").prop('checked', true);
+    $( "#toggle_online_checkbox").prop('checked', true);
         localStorage.setItem("status", "online");
         
         $( "#toggle_online" ).click(function() {
@@ -250,7 +267,12 @@ $('<img src="https://maps.googleapis.com/maps/api/staticmap?center='+passenger_g
 
 
 var myAudio = document.getElementById("snd_hey_taxi");
+var play_choice = localStorage.getItem("play_choice");
+
+if (play_choice == "Yes") {
 myAudio.play();
+}
+        
 });
 
 }
@@ -265,22 +287,39 @@ getLocationUpdate();
 }
 
 </script>
+    
+    <br>
 
+    <div class="row">
+      <div class="col s12 m5">
+        <div class="card-panel white">
+          <span class="black-text">
+              
+Choose if you are visible to passengers
+<br><br>
     <!-- Switch -->
   <div id="toggle_online" class="switch">
     <label>
-      Offline
+      Hidden
       <input id="toggle_online_checkbox" type="checkbox">
       <span class="lever"></span>
-      Online
+      Visible
     </label>
   </div>
-    
     <br>
+Play a sound when a passenger calls you
+<br><br>
+    <input type="checkbox" class="filled-in" id="play_choice_checkbox" checked="checked" />
+    <label for="play_choice_checkbox">Play <i>Hey Taxi!</i></label>
+              
+          </span>
+        </div>
+      </div>
+    </div>
+
+<a onclick="localStorage.removeItem('loggedin');location.reload();" class="waves-effect waves-light btn red">Logout <span id="driver_name"></span></a>
     
-    <a onclick="localStorage.removeItem('loggedin');location.reload();" class="waves-effect waves-light btn red">Logout</a>
-    
-    <br>
+
     
 </div>
     

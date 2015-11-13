@@ -3,6 +3,8 @@ $(document).ready(function() {
 var loggedin = localStorage.getItem('loggedin');
     
 if (loggedin == 'Yes') {
+    var driver_name = localStorage.getItem("driver_name");
+    document.getElementById("driver_name").innerHTML = driver_name;
     wasloggedin();
 }
 
@@ -141,6 +143,8 @@ localStorage.setItem("id_no", id_no);
 
 $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
     
+localStorage.setItem("driver_name", data);
+    
 var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
     
  pin = login_from_qr_pin;
@@ -159,6 +163,9 @@ if (login_from_qr_pin === "") {
         if (data == "pin_correct") {
 
             localStorage.setItem('loggedin','Yes');
+            
+            var driver_name = localStorage.getItem("driver_name");
+            document.getElementById("driver_name").innerHTML = driver_name;
             
             $( "#view_login" ).fadeOut( "slow", function() {
                 $( "#view_taxi_waiting" ).fadeIn( "slow", function() {

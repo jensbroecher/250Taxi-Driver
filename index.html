@@ -15,6 +15,7 @@
 <script src="js/preventreload.js"></script>
 <script src="responsivevoice.js"></script>
 <script src="js/main.js"></script>
+<script src="js/corporate.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
@@ -63,7 +64,9 @@ function onDeviceReady() {
 <br><br>
 <a id="login_btn_register" class="waves-effect waves-light btn taxi250">Register</a>
 <br><br>
-<a id="login_admin_btn" class="waves-effect waves-dark btn white grey-text">Hotel / Corporate</a>
+<a href="qr/" class="waves-effect waves-light btn taxi250">QR Test</a>
+<br><br>
+<a id="login_btn_corporate" class="waves-effect waves-dark btn white grey-text">Hotel / Corporate</a>
 </div>
     
 <div id="view_login">
@@ -348,9 +351,23 @@ Play a sound when a passenger calls you
       </div>
     </div>
 
-<a onclick="localStorage.removeItem('loggedin');location.reload();" class="waves-effect waves-light btn red">Logout <span id="driver_name"></span></a>
+<a onclick="logout_confirm();" class="waves-effect waves-light btn red">Logout <span id="driver_name"></span></a>
     
+<script>
+function logout_confirm() {
 
+var logout_confirm = confirm("Are you sure you want to log out?");
+if (logout_confirm == true) {
+    localStorage.removeItem('loggedin');
+    responsiveVoice.speak("Goodbye, see you again soon!", "UK English Male",{onend: goodbye});
+    function goodbye() {
+       location.reload(); 
+    }
+} else {
+    return;
+}
+}    
+</script>
     
 </div>
     
@@ -417,6 +434,115 @@ Play a sound when a passenger calls you
         });
     }
 </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<!-- Corporate Login Start -->
+    
+<style>
+.modal250_title {
+        font-family: Roboto, sans-serif;
+	    font-size: 22px;
+        text-align: center;
+        color: white;
+        margin-top: 20px;
+        margin-bottom: 20px;
+}
+.modal250_cancel_button {
+        font-family: Roboto, sans-serif;
+	    font-size: 14px;
+        text-align: center;
+        color: white;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 8px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+}
+.modal250 {
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    top: 5%;
+    background-color: #424242;
+    box-shadow: 2px 2px 6px 0.7px rgba(0,0,0,0.5);
+}
+.modal250bg {
+    display: none;
+    background-color: rgba(0,0,0,0.2);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}    
+</style>
+
+<!-- modal250 Start -->
+<div class="modal250bg" id="corporate_login_start">
+<div class="modal250 animated zoomIn">
+
+    <div class="modal250_title">Corporate Login</div>
+    
+    <div onclick="localStorage.setItem('corporate_login_type','hotel');corporate_login_start();" class="modal250_cancel_button">Hotel Account</div>
+
+    <div onclick="localStorage.setItem('corporate_login_type','corporate');corporate_login_start();" class="modal250_cancel_button">Corporate Account</div>
+    
+    <div style="padding: 5px; background-color: lightgrey;">
+        
+    <div onclick="$('#corporate_login_start').fadeOut('slow');" class="modal250_cancel_button" style="color: black;">Cancel</div>
+    </div>
+
+</div>
+</div>
+<!-- modal250 End -->
+    
+<!-- modal250 Start -->
+<div class="modal250bg" id="hotel_card_menu">
+<div class="modal250 animated zoomIn">
+
+    <div class="modal250_title">Card Management</div>
+    
+    <div onclick="hotel_card_menu_scancode_activate();" class="modal250_cancel_button">Activate Card</div>
+
+    <div onclick="hotel_card_menu_scancode_deactivate();" class="modal250_cancel_button">Deactivate Card<br>(Clear Balance)</div>
+    
+    <div style="padding: 5px; background-color: lightgrey;">
+        
+    <div onclick="location.reload();" class="modal250_cancel_button" style="color: black;">Done</div>
+    </div>
+
+</div>
+</div>
+<!-- modal250 End -->
 
 </body>
 </html>

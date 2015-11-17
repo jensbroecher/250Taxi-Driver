@@ -22,16 +22,8 @@ $( "#login_btn_register" ).click(function() {
 	window.open('http://250taxi.com', '_system'); 
 });
     
-$( "#login_admin_btn" ).click(function() {
-var login_admin = prompt('Please enter your login credentials:');
-if(login_admin =='250taxiadmin')
-{
-	window.open('http://250taxi.com/admin/', '_system'); 
-}
-else
-{
-	alert('Unknown account. Please try again.');
-}
+$( "#login_btn_corporate" ).click(function() {
+    corporate_login();
 });
 
 $(document).on('submit','#login_form',function (e) {
@@ -143,12 +135,12 @@ localStorage.setItem("id_no", id_no);
 $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
     
 localStorage.setItem("driver_name", data);
+
+responsiveVoice.speak("Please enter your PIN!", "UK English Male",{onend: check_login_prompt});
     
-responsiveVoice.speak("Please enter your PIN!");
-    
+function check_login_prompt() {
 var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
-    
- pin = login_from_qr_pin;
+pin = login_from_qr_pin;
     
 if (login_from_qr_pin === "") {
     alert('Please enter your PIN!');
@@ -163,7 +155,7 @@ if (login_from_qr_pin === "") {
         
         if (data == "pin_correct") {
             
-            responsiveVoice.speak("PIN Correct! Welcome!");
+            responsiveVoice.speak("PIN Correct! Welcome to twofiftytaxi!", "UK English Male");
 
             localStorage.setItem('loggedin','Yes');
             
@@ -179,22 +171,24 @@ if (login_from_qr_pin === "") {
         }
         if (data == "pin_false") {
             
-            responsiveVoice.speak("Sorry,  PIN incorrect.");
+            responsiveVoice.speak("Sorry,  PIN incorrect.", "UK English Male",{onend: pin_incorrect_info});
             
+            function pin_incorrect_info() {
             alert("PIN incorrect.");
             check_login();
+            }
         }
     });
 } else {
     return;
 }
-
+} 
 });
 }
 else {
     alert('Account type not supported yet.');
 }
-    
+   
 }
 
 function wasloggedin() {

@@ -359,7 +359,12 @@ function logout_confirm() {
 var logout_confirm = confirm("Are you sure you want to log out?");
 if (logout_confirm == true) {
     localStorage.removeItem('loggedin');
-    responsiveVoice.speak("Goodbye, see you again soon!", "UK English Male",{onend: goodbye});
+    responsiveVoice.speak("Goodbye, see you again soon!", "UK English Male");
+    
+    setTimeout(function(){ 
+                goodbye()
+    }, 3000);
+    
     function goodbye() {
        location.reload(); 
     }

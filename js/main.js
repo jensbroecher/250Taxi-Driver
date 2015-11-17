@@ -138,7 +138,9 @@ localStorage.setItem("driver_name", data);
 
 responsiveVoice.speak("Please enter your PIN!", "UK English Male");
     
-check_login_prompt();
+            setTimeout(function(){ 
+                check_login_prompt();
+            }, 3000);
     
 function check_login_prompt() {
 var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
@@ -175,7 +177,9 @@ if (login_from_qr_pin === "") {
             
             responsiveVoice.speak("Sorry,  PIN incorrect.", "UK English Male");
             
-            pin_incorrect_info();
+            setTimeout(function(){ 
+                pin_incorrect_info(); 
+            }, 3000);
             
             function pin_incorrect_info() {
             alert("PIN incorrect.");

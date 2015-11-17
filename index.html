@@ -13,6 +13,7 @@
 <script src="cordova.js"></script>
 <script src="js/materialize.js"></script>
 <script src="js/preventreload.js"></script>
+<script src="responsivevoice.js"></script>
 <script src="js/main.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -62,7 +63,7 @@ function onDeviceReady() {
 <br><br>
 <a id="login_btn_register" class="waves-effect waves-light btn taxi250">Register</a>
 <br><br>
-<a id="login_admin_btn" class="waves-effect waves-light btn white grey-text">Admin-Login</a>
+<a id="login_admin_btn" class="waves-effect waves-dark btn white grey-text">Hotel / Corporate</a>
 </div>
     
 <div id="view_login">
@@ -84,7 +85,7 @@ function onDeviceReady() {
             
 <div class="input-field col s12">
           <input id="id_no" type="text" required="" aria-required="true" class="validate">
-          <label for="id_no">ID No.</label>
+          <label for="id_no">ID Number / Username</label>
 </div>
             
 <div class="input-field col s12">
@@ -104,7 +105,7 @@ function onDeviceReady() {
       <div class="col s12 m5">
         <div class="card-panel white">
         <img id="scan_qr" src="img/scan_qr.png">
-          <a id="login_btn_go" class="waves-effect waves-light btn taxi250" onclick="scancode();">Scan QR-Code</a>  
+          <a id="login_btn_qr" class="waves-effect waves-light btn taxi250" onclick="scancode();">Scan QR-Code</a>  
         </div>
       </div>
     </div>
@@ -221,12 +222,10 @@ function showPosition(position) {
 // console.log(data);
 
 var d1 = data.substring(0,1);
-// var d2 = data.substring(3,4);
-// var d3 = data.substring(4,5);
-// var d4 = data.substring(5);
+var d2 = data.substring(1);
         
-// console.log("d1: "+d1+" d2: "+d2+" d3: "+d3+" d4: "+d4+"");
-console.log("d1: "+d1+"");
+// console.log("d1: "+d1+" d2: "+d2+"");
+console.log("d1: "+d1+"\nd2: "+d2+"");
         
 // No passenger request - Show waiting screen
 if (d1 == "0") {
@@ -236,6 +235,38 @@ if (d1 == "0") {
         });
   });
 }
+        
+// Request cancelled
+if (d1 == "2") {
+    $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancel_reason&id_no="+id_no+"",  function( data ) {
+        
+    // alert(data);
+        
+    if (data == "driver_late") {
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Driver was late!");
+    }
+    if (data == "cant_track") {
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Can't track driver!");
+    }
+    if (data == "cant_reach") {
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Can't reach driver");
+    }
+    else if (data == "null") {
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
+    }
+    else if (data == null) {
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
+    }
+    else if (data == "") {
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
+    }
+    else {
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. "+data+"")
+    }
+
+    request_cancelled();
+    });
+} 
 
 // Passenger has requested journey - Get details and show options
 if (d1 == "1") {
@@ -373,6 +404,16 @@ Play a sound when a passenger calls you
         $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=decline&id_no="+id_no+"",  function( data ) {
             document.getElementById('view_taxi_journeyrequest').style.display = 'none';
             document.getElementById('view_taxi_waiting').style.display = 'block';
+        });
+    }
+    function request_cancelled() {
+
+        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancelled&id_no="+id_no+"",  function( data ) {
+            var cancel_reason = localStorage.getItem("cancel_reason");
+            alert(cancel_reason);
+            location.reload();
+            // document.getElementById('view_taxi_journeyrequest').style.display = 'none';
+            // document.getElementById('view_taxi_waiting').style.display = 'block';
         });
     }
 </script>

@@ -41,7 +41,7 @@ $(document).on('submit','#login_form',function (e) {
 })
     
 $('#login_btn_go').click(function(e){
-  //Leverage the HTML5 validation w/ ajax. Have to submit to get em. Wont actually submit cuz form
+  //Leverage the HTML5 validation w/ ajax. Have to submit to get em. Wont actually submit
   //has .validateDontSubmit class
   var $theForm = $(this).closest('form');
   //Some browsers don't implement checkValidity
@@ -49,7 +49,6 @@ $('#login_btn_go').click(function(e){
     alert('Account not found. Please check your ID Number and PIN or contact support.');
      return;
   }
-
   login_form_go();
 });
     
@@ -145,6 +144,8 @@ $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", fun
     
 localStorage.setItem("driver_name", data);
     
+responsiveVoice.speak("Please enter your PIN!");
+    
 var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
     
  pin = login_from_qr_pin;
@@ -156,11 +157,13 @@ if (login_from_qr_pin === "") {
     
     // alert(pin);
     
-    $.get( "http://250taxi.com/db/partner/taxi_id_check_pin.php?pin="+pin+"", function( data ) {
+    $.get( "http://250taxi.com/db/partner/taxi_id_check_pin.php?id_no="+id_no+"&pin="+pin+"", function( data ) {
         
         // alert(data);
         
         if (data == "pin_correct") {
+            
+            responsiveVoice.speak("PIN Correct! Welcome!");
 
             localStorage.setItem('loggedin','Yes');
             
@@ -175,7 +178,10 @@ if (login_from_qr_pin === "") {
             
         }
         if (data == "pin_false") {
-            alert("PIN incorrect. Please try again.");
+            
+            responsiveVoice.speak("Sorry,  PIN incorrect.");
+            
+            alert("PIN incorrect.");
             check_login();
         }
     });

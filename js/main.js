@@ -136,7 +136,9 @@ $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", fun
     
 localStorage.setItem("driver_name", data);
 
-responsiveVoice.speak("Please enter your PIN!", "UK English Male",{onend: check_login_prompt});
+responsiveVoice.speak("Please enter your PIN!", "UK English Male");
+    
+check_login_prompt();
     
 function check_login_prompt() {
 var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
@@ -171,7 +173,9 @@ if (login_from_qr_pin === "") {
         }
         if (data == "pin_false") {
             
-            responsiveVoice.speak("Sorry,  PIN incorrect.", "UK English Male",{onend: pin_incorrect_info});
+            responsiveVoice.speak("Sorry,  PIN incorrect.", "UK English Male");
+            
+            pin_incorrect_info();
             
             function pin_incorrect_info() {
             alert("PIN incorrect.");

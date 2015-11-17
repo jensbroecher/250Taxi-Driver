@@ -2,6 +2,11 @@ body {
     background-color: gainsboro;
     text-align: center;
 }
+#view_start {
+    background-image: url(../img/kigali_day_3.jpg);
+    background-size: cover;
+    background-position: center bottom;
+}
 html, body, #map {
 			height: 100%;
             width: 100%;

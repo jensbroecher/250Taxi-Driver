@@ -103,3 +103,33 @@ cordova.plugins.barcodeScanner.scan(
       }
    );
 }
+function rot13(str) {
+  return str.replace(/[a-zA-Z]/g, function(chr) {
+    var start = chr <= 'Z' ? 65 : 97;
+    return String.fromCharCode(start + (chr.charCodeAt(0) - start + 13) % 26);
+  });
+}
+function  hotel_card_activate() {
+    var codefromqr_hotel = localStorage.getItem("codefromqr_hotel");
+    
+    var codefromqr_hotel = window.atob(codefromqr_hotel);
+    
+    var codefromqr_hotel = rot13(codefromqr_hotel);
+    
+    var codefromqr_hotel = codefromqr_hotel.substring(5);
+    
+    alert(codefromqr_hotel);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

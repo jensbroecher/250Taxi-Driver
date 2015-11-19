@@ -516,7 +516,15 @@ if (logout_confirm == true) {
     width: 100%;
     height: 100%;
     z-index: 100000;
-}    
+}
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 </style>
 
 <!-- modal250 Start -->
@@ -544,7 +552,7 @@ if (logout_confirm == true) {
 
     <div class="modal250_title">Card Management</div>
     
-    <div onclick="hotel_card_activate_test();" class="modal250_cancel_button">Test</div>
+    <div style="display:none;" onclick="hotel_card_deactivate_test();" class="modal250_cancel_button">Test</div>
     
     <div onclick="hotel_card_menu_scancode_activate();" class="modal250_cancel_button">Activate Card</div>
 
@@ -563,16 +571,16 @@ if (logout_confirm == true) {
 <div class="modal250bg" id="hotel_card_activation_form">
 <div class="modal250 animated zoomIn">
 
-<div class="modal250_title">Card Details</div>
+<div class="modal250_title">Card Activation</div>
 
 <form action="javascript:hotel_card_activation_complete();" id="hotel_card_activation" name="hotel_card_activation" class="card_form">
 <input required id="hotel_card_activation_guest_name" type="text" placeholder="Guest Name">
-<input required id="hotel_card_activation_guest_email" type="text" placeholder="Guest E-Mail">
+<input required id="hotel_card_activation_guest_email" type="email" placeholder="Guest E-Mail">
 <input required id="hotel_card_activation_guest_room_number" type="text" placeholder="Guest Room Number">
 <input required id="hotel_card_activation_guest_phone_number" type="text" placeholder="Guest Phone">
 <input required id="hotel_card_activation_guest_check_in_date" type="date" placeholder="Check-in Date">
 <input required id="hotel_card_activation_guest_check_out_date" type="date" placeholder="Check-Out Date">
-<input required id="hotel_card_activation_pin" type="tel" maxlength="4" placeholder="PIN">
+<input required id="hotel_card_activation_pin" type="tel" minlength="4" maxlength="4" placeholder="PIN" pattern="\d*">
     
 <input id="hotel_card_activation_submit_handle" type="submit" style="display: none">
 
@@ -581,6 +589,32 @@ if (logout_confirm == true) {
     
 </form>
     
+</div>
+</div>
+<!-- modal250 End -->
+    
+    
+<!-- modal250 Start -->
+<div class="modal250bg" id="hotel_card_deactivation">
+<div class="modal250 animated zoomIn">
+
+    <div class="modal250_title">Card Deactivation</div>
+    
+    <form class="card_form">
+    <div style="color: white;">
+    Payment due for guest: <span id="hotel_card_deactivation_guest_name"></span>
+    </div>
+    <input style="pointer-events:none;" id="hotel_card_deactivation_payment_due" type="text" value="5000">
+        
+    <div onclick="setTimeout(function(){ hotel_card_deactivation_complete(); }, 1000);" class="waves-effect waves-light btn black grey-text">Deactivate</div>
+        
+    <br><br>
+        
+    <div onclick="setTimeout(function(){ hotel_card_deactivation_cancel(); }, 1000);" class="waves-effect waves-dark btn white grey-text">Cancel</div>
+        
+<br><br>
+    </form>
+
 </div>
 </div>
 <!-- modal250 End -->

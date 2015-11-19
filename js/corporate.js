@@ -110,8 +110,12 @@ function rot13(str) {
   });
 }
 function hotel_card_activate_test() {
-    localStorage.setItem("codefromqr_hotel_decode","1");
+    localStorage.setItem("codefromqr_hotel_decode_test","1");
     hotel_card_activate();
+}
+function hotel_card_deactivate_test() {
+    localStorage.setItem("codefromqr_hotel_decode_test","1");
+    hotel_card_deactivate();
 }
 function hotel_card_activate() {
     
@@ -129,6 +133,9 @@ function hotel_card_activate() {
 }
 function hotel_card_activation_complete() { 
     
+var hotel_card_activation_id = localStorage.getItem("codefromqr_hotel_decode");
+// var hotel_card_activation_id = localStorage.getItem("codefromqr_hotel_decode_test");
+    
 var hotel_card_activation_guest_name = document.getElementById("hotel_card_activation_guest_name").value;
 var hotel_card_activation_guest_email = document.getElementById("hotel_card_activation_guest_email").value;
 var hotel_card_activation_guest_room_number = document.getElementById("hotel_card_activation_guest_room_number").value;
@@ -137,18 +144,39 @@ var hotel_card_activation_guest_check_in_date = document.getElementById("hotel_c
 var hotel_card_activation_guest_check_out_date = document.getElementById("hotel_card_activation_guest_check_out_date").value;
 var hotel_card_activation_pin = document.getElementById("hotel_card_activation_pin").value;
 
-$.get( "http://250taxi.com/db/partner/hotel/activate_card.php?hotel_card_activation_guest_name="+hotel_card_activation_guest_name+"&hotel_card_activation_guest_email="+hotel_card_activation_guest_email+"&hotel_card_activation_guest_room_number="+hotel_card_activation_guest_room_number+"&hotel_card_activation_guest_phone_number="+hotel_card_activation_guest_phone_number+"&hotel_card_activation_guest_check_in_date="+hotel_card_activation_guest_check_in_date+"&hotel_card_activation_guest_check_out_date="+hotel_card_activation_guest_check_out_date+"&hotel_card_activation_pin="+hotel_card_activation_pin+"", function( data ) {
-    alert("Card Activated");
+$.get( "http://250taxi.com/db/partner/hotel/activate_card.php?hotel_card_activation_id="+hotel_card_activation_id+"&hotel_card_activation_guest_name="+hotel_card_activation_guest_name+"&hotel_card_activation_guest_email="+hotel_card_activation_guest_email+"&hotel_card_activation_guest_room_number="+hotel_card_activation_guest_room_number+"&hotel_card_activation_guest_phone_number="+hotel_card_activation_guest_phone_number+"&hotel_card_activation_guest_check_in_date="+hotel_card_activation_guest_check_in_date+"&hotel_card_activation_guest_check_out_date="+hotel_card_activation_guest_check_out_date+"&hotel_card_activation_pin="+hotel_card_activation_pin+"", function( data ) {
+    alert("Card activated for guest: "+hotel_card_activation_guest_name+"");
+    document.getElementById("hotel_card_menu").style.display = "block";
+    document.getElementById("hotel_card_activation_form").style.display = "none";
 });
     
 }
 function hotel_card_deactivate() {
+    
+    var hotel_card_activation_id = localStorage.getItem("codefromqr_hotel_decode");
+    // var hotel_card_activation_id = localStorage.getItem("codefromqr_hotel_decode_test");
     
     var codefromqr_hotel = localStorage.getItem("codefromqr_hotel");   
     var codefromqr_hotel = window.atob(codefromqr_hotel);
     var codefromqr_hotel = rot13(codefromqr_hotel);
     var codefromqr_hotel = codefromqr_hotel.substring(5);
     localStorage.setItem("codefromqr_hotel_decode",codefromqr_hotel);
+    
+    $.get( "http://250taxi.com/db/partner/hotel/deactivate_card.php?task=guest_name&hotel_card_activation_id="+hotel_card_activation_id+"", function( data ) {
+    document.getElementById("hotel_card_deactivation_guest_name").innerHTML = data; 
+        $.get( "http://250taxi.com/db/partner/hotel/deactivate_card.php?task=guest_balance&hotel_card_activation_id="+hotel_card_activation_id+"", function( data ) {
+    document.getElementById("hotel_card_deactivation_payment_due").value = data; 
+    document.getElementById("hotel_card_menu").style.display = "none";
+    document.getElementById("hotel_card_deactivation").style.display = "block";
+        });
+});
+}
+function hotel_card_deactivation_cancel() {
+    document.getElementById("hotel_card_menu").style.display = "block";
+    document.getElementById("hotel_card_deactivation").style.display = "none";
+}
+function hotel_card_deactivation_complete() {
+    alert("Not supported yet");
 }
 
 

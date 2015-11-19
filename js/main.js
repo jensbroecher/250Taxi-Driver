@@ -1,3 +1,11 @@
+function back_to_start() {
+$( "#view_login" ).fadeOut( "slow", function() {
+  $( "#view_start" ).fadeIn( "slow", function() {
+
+  });
+});
+}
+
 $(document).ready(function() {
     
 var loggedin = localStorage.getItem('loggedin');

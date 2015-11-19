@@ -78,6 +78,12 @@ function onDeviceReady() {
 <div class="row">
       <div class="col s12 m5">
         <div class="card-panel white">
+
+<div class="arrow_back" onclick="back_to_start();">
+<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+    <path fill="#000000" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+</svg>
+</div>
           
 <div class="input-field col s12">
     <select id="partner_type" required="" aria-required="true">
@@ -538,6 +544,8 @@ if (logout_confirm == true) {
 
     <div class="modal250_title">Card Management</div>
     
+    <div onclick="hotel_card_activate_test();" class="modal250_cancel_button">Test</div>
+    
     <div onclick="hotel_card_menu_scancode_activate();" class="modal250_cancel_button">Activate Card</div>
 
     <div onclick="hotel_card_menu_scancode_deactivate();" class="modal250_cancel_button">Deactivate Card<br>(Clear Balance)</div>
@@ -547,6 +555,32 @@ if (logout_confirm == true) {
     <div onclick="location.reload();" class="modal250_cancel_button" style="color: black;">Done</div>
     </div>
 
+</div>
+</div>
+<!-- modal250 End -->
+    
+<!-- modal250 Start -->
+<div class="modal250bg" id="hotel_card_activation_form">
+<div class="modal250 animated zoomIn">
+
+<div class="modal250_title">Card Details</div>
+
+<form action="javascript:hotel_card_activation_complete();" id="hotel_card_activation" name="hotel_card_activation" class="card_form">
+<input required id="hotel_card_activation_guest_name" type="text" placeholder="Guest Name">
+<input required id="hotel_card_activation_guest_email" type="text" placeholder="Guest E-Mail">
+<input required id="hotel_card_activation_guest_room_number" type="text" placeholder="Guest Room Number">
+<input required id="hotel_card_activation_guest_phone_number" type="text" placeholder="Guest Phone">
+<input required id="hotel_card_activation_guest_check_in_date" type="date" placeholder="Check-in Date">
+<input required id="hotel_card_activation_guest_check_out_date" type="date" placeholder="Check-Out Date">
+<input required id="hotel_card_activation_pin" type="tel" maxlength="4" placeholder="PIN">
+    
+<input id="hotel_card_activation_submit_handle" type="submit" style="display: none">
+
+<a onclick="setTimeout(function(){ $('#hotel_card_activation_submit_handle').click(); }, 1000);" class="waves-effect waves-light btn black grey-text">Activate</a>
+<br><br>
+    
+</form>
+    
 </div>
 </div>
 <!-- modal250 End -->

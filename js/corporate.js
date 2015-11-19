@@ -109,16 +109,46 @@ function rot13(str) {
     return String.fromCharCode(start + (chr.charCodeAt(0) - start + 13) % 26);
   });
 }
-function  hotel_card_activate() {
-    var codefromqr_hotel = localStorage.getItem("codefromqr_hotel");
+function hotel_card_activate_test() {
+    localStorage.setItem("codefromqr_hotel_decode","1");
+    hotel_card_activate();
+}
+function hotel_card_activate() {
     
+    var codefromqr_hotel = localStorage.getItem("codefromqr_hotel");   
     var codefromqr_hotel = window.atob(codefromqr_hotel);
-    
     var codefromqr_hotel = rot13(codefromqr_hotel);
-    
     var codefromqr_hotel = codefromqr_hotel.substring(5);
+    localStorage.setItem("codefromqr_hotel_decode",codefromqr_hotel);
     
-    alert(codefromqr_hotel);
+    document.getElementById("hotel_card_activation_guest_check_in_date").valueAsDate = new Date();
+    document.getElementById("hotel_card_activation_guest_check_out_date").valueAsDate = new Date();
+
+    document.getElementById("hotel_card_menu").style.display = "none";
+    document.getElementById("hotel_card_activation_form").style.display = "block";
+}
+function hotel_card_activation_complete() { 
+    
+var hotel_card_activation_guest_name = document.getElementById("hotel_card_activation_guest_name").value;
+var hotel_card_activation_guest_email = document.getElementById("hotel_card_activation_guest_email").value;
+var hotel_card_activation_guest_room_number = document.getElementById("hotel_card_activation_guest_room_number").value;
+var hotel_card_activation_guest_phone_number = document.getElementById("hotel_card_activation_guest_phone_number").value;
+var hotel_card_activation_guest_check_in_date = document.getElementById("hotel_card_activation_guest_check_in_date").value;
+var hotel_card_activation_guest_check_out_date = document.getElementById("hotel_card_activation_guest_check_out_date").value;
+var hotel_card_activation_pin = document.getElementById("hotel_card_activation_pin").value;
+
+$.get( "http://250taxi.com/db/partner/hotel/activate_card.php?hotel_card_activation_guest_name="+hotel_card_activation_guest_name+"&hotel_card_activation_guest_email="+hotel_card_activation_guest_email+"&hotel_card_activation_guest_room_number="+hotel_card_activation_guest_room_number+"&hotel_card_activation_guest_phone_number="+hotel_card_activation_guest_phone_number+"&hotel_card_activation_guest_check_in_date="+hotel_card_activation_guest_check_in_date+"&hotel_card_activation_guest_check_out_date="+hotel_card_activation_guest_check_out_date+"&hotel_card_activation_pin="+hotel_card_activation_pin+"", function( data ) {
+    alert("Card Activated");
+});
+    
+}
+function hotel_card_deactivate() {
+    
+    var codefromqr_hotel = localStorage.getItem("codefromqr_hotel");   
+    var codefromqr_hotel = window.atob(codefromqr_hotel);
+    var codefromqr_hotel = rot13(codefromqr_hotel);
+    var codefromqr_hotel = codefromqr_hotel.substring(5);
+    localStorage.setItem("codefromqr_hotel_decode",codefromqr_hotel);
 }
 
 

@@ -21,6 +21,19 @@ html, body, #map {
     margin-right: 5px;
     margin-left: 5px;
 }
+.arrow_back {
+    padding: 5px;
+    position: absolute;
+    margin-top: -18px;
+    margin-left: -18px;
+}
+.card_form {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.card_form input {
+    color: white;
+}
 #scan_qr {
     width: 80px;
     vertical-align: middle;

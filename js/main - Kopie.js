@@ -46,7 +46,7 @@ $('#login_btn_go').click(function(e){
   var $theForm = $(this).closest('form');
   //Some browsers don't implement checkValidity
   if (( typeof($theForm[0].checkValidity) == "function" ) && !$theForm[0].checkValidity()) {
-    alert('Account not found. Please check your ID Number / Username.');
+    alert('Account not found. Please check your ID Number and PIN or contact support.');
      return;
   }
   login_form_go();
@@ -58,7 +58,7 @@ function login_form_go() {
     
 partner_type = document.getElementById('partner_type').value;
 id_no = document.getElementById('id_no').value;
-// pin = document.getElementById('pin').value;
+pin = document.getElementById('pin').value;
     
 if (partner_type == "TX_") {
     
@@ -100,7 +100,7 @@ cordova.plugins.barcodeScanner.scan(
               
             //  alert("Test");
           
-              localStorage.setItem("codefromqr", result.text);
+          localStorage.setItem("codefromqr", result.text);
               
             // alert(result.text);
     
@@ -128,40 +128,8 @@ partner_type = codefromqr_type;
 id_no = codefromqr_id;
 pin = "";
 
-check_login_from_card();
+check_login();
 
-}
-
-function check_login_from_card() {
-    
-if (partner_type == "TX_") {
-    
-   localStorage.setItem("id_no", id_no);
-    
-    $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
-        
-localStorage.setItem("driver_name", data);
-        
-     responsiveVoice.speak("Scan complete! Welcome to twofiftytaxi!", "UK English Male");
-
-    localStorage.setItem('loggedin','Yes');
-            
-    var driver_name = localStorage.getItem("driver_name");
-    document.getElementById("driver_name").innerHTML = driver_name;
-            
-            $( "#view_login" ).fadeOut( "slow", function() {
-                $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
-                    myVar = setInterval(function(){ myTimer() }, 10000);
-                });
-            });
-        
-     });
-        
-}
-else {
-    alert('Account type not supported yet.');
-}
-    
 }
 
 function check_login() {
@@ -183,10 +151,7 @@ responsiveVoice.speak("Please enter your PIN!", "UK English Male");
             }, 3000);
     
 function check_login_prompt() {
-
-// var pin_length = pin.length;
-
-var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:","");
+var login_from_qr_pin = prompt("Amakuru, "+data+".\nPlease enter your PIN:",""+pin+"");
 pin = login_from_qr_pin;
     
 if (login_from_qr_pin === "") {

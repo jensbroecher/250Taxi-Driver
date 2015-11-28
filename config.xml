@@ -2,8 +2,8 @@
     <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.twofiftytaxi.partner"
-        versionCode = "2" 
-        version     = "2.0.0" >
+        versionCode = "3" 
+        version     = "3.0.0" >
 
     <name>Partner</name>
 
@@ -27,6 +27,8 @@
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
     <gap:plugin name="cordova-plugin-media" source="npm" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
+        
+    <gap:plugin name="cordova-plugin-brightness" source="npm" />
     
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
         

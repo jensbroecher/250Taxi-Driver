@@ -24,6 +24,7 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
+brightness.setKeepScreenOn(true);
 screen.lockOrientation('portrait');
 }
 
@@ -97,11 +98,6 @@ function onDeviceReady() {
 <div class="input-field col s12">
           <input id="id_no" type="text" required="" aria-required="true" class="validate">
           <label for="id_no">ID Number / Username</label>
-</div>
-            
-<div class="input-field col s12">
-          <input id="pin" type="number" required="" aria-required="true" maxlength = "4" pattern=".{4,}" class="validate">
-          <label for="pin">PIN</label>
 </div>
     
 <a id="login_btn_go" class="waves-effect waves-light btn taxi250">Login</a>

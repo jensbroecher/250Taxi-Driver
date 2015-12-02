@@ -32,6 +32,8 @@
     
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
         
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" source="npm" />   
+
     <gap:plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" />
         
     <gap:plugin name="cordova-plugin-barcodescanner" source="npm" />

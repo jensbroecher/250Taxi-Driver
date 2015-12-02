@@ -45,6 +45,9 @@ screen.lockOrientation('portrait');
 
 $(document).ready(function() {
     
+// Resets
+localStorage.removeItem("request_accepted");
+    
 $.get( "http://250taxi.com/db/partner/check_app_update.php?check=driver",  function( data ) {
     var currentversion = "1";
     var serverversion = data;
@@ -350,6 +353,13 @@ location.reload();
 }
 
 // Passenger has requested journey - Get details and show options
+        
+var request_accepted = localStorage.getItem("request_accepted");
+
+if (request_accepted == "Yes") {
+    
+}
+else {
 if (d1 == "1") {
     $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
     $( "#view_taxi_journeyrequest" ).fadeIn();
@@ -387,6 +397,8 @@ myAudio.play();
         
 });
 
+}
+    
 }
 
 });
@@ -502,6 +514,8 @@ if (logout_confirm == true) {
     function request_accept() {
         
        var passenger_id = document.getElementById("passenger_id").innerHTML;
+    
+        localStorage.setItem("request_accepted","Yes");
         
        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=accept&passenger_id="+passenger_id+"",  function( data ) {
             
@@ -534,6 +548,13 @@ launchnavigator.navigate(
   function(error){
       alert("Plugin error: "+ error);
   });
+
+cordova.plugins.notification.local.schedule({
+    title: "Back to 250TAXI Partner",
+    message: "Tap to open the app."
+    // sound: "file://sounds/message.mp3",
+    // icon: "http://my.domain.de/avatar/user#id=123"
+});
     
 }
 
@@ -546,8 +567,33 @@ launchnavigator.navigate(
 
     
 <div id="view_taxi_journeyaccepted">
+    
+<div class="row">
+        <div class="col s12">
+          <div class="card">
+            <div class="card-image">
+              <img src="img/kigali.jpg">
+              <span class="card-title">Journey accepted</span>
+            </div>
+            <div class="card-content">
 
-<div onclick="native_navigation();" class="waves-effect waves-light btn black">Navigation Start</div>
+        <p>
+        Client Location: <span id="ja_client_location">Loading...</span><br>
+        Additional Instructions: <span id="ja_client_instructions">Loading...</span>
+        </p>
+
+            </div>
+            <div class="card-action">
+                
+              <div onclick="native_navigation();" class="waves-effect waves-light btn black">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+</svg> Turn-by-turn</div>
+                
+            </div>
+          </div>
+        </div>
+      </div>
 
 </div>
     

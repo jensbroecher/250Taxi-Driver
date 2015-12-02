@@ -7,6 +7,8 @@
 <link href="css/materialize.css" rel="stylesheet" type="text/css">
 <link href="css/main.css" rel="stylesheet" type="text/css">
     
+<link href="css/toast.css" rel="stylesheet" type="text/css">
+    
 <script src="js/map.js"></script>
 
 <script src="js/jquery.min.js"></script>
@@ -16,10 +18,23 @@
 <script src="responsivevoice.js"></script>
 <script src="js/main.js"></script>
 <script src="js/corporate.js"></script>
+    
+<script src="js/toast.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
 <script type="text/javascript">
+    
+function showindicator() {
+document.getElementById("loadingindicator").className = "animated fadeIn";
+document.getElementById("loadingindicator").style.display = "block";
+}
+function hideindicator() {
+document.getElementById("loadingindicator").className = "animated fadeOut";
+setTimeout(function(){
+document.getElementById("loadingindicator").style.display = "none";
+}, 1000);
+}
     
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -57,6 +72,10 @@ function onDeviceReady() {
 </head>
 
 <body id="body">
+    
+<div id="loadingindicator">
+<img src="img/282.gif" width="120">
+</div>
     
 <div id="view_start">
 <img id="logo" src="icon.png">
@@ -126,6 +145,7 @@ function onDeviceReady() {
     background-color: black;
     width: 100%;
     color: white;
+    opacity: 0.8;
 }
 .infobox {
     background-image: url(img/information-outline.svg);
@@ -138,16 +158,38 @@ function onDeviceReady() {
     text-align: left;
     background-color: white;
 }
+#loadingindicator {
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+	background-color: #E2E2E2;
+	position: absolute;
+	z-index: 100;
+	height: 100%;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	text-align: center;
+}
+#loadingindicator img {
+	margin-top: 100px;
+	width: 160px;
+}
+#view_taxi_journeyaccepted {
+    display: none;
+}
 </style>
+    
     
     <div id="radar"><br>
     <img src="img/220.gif" style="width:60%;"><br>
         Waiting for passengers...<br>You are visible!<br><br>
+    <div id="behind_radar"></div>
     </div>
     
     <div id="radar_offline" style="display:none;"><br>
     <img src="img/offline.png" style="width:60%;"><br>
         You aren't visible.<br>Passengers can't find you!<br><br>
+    <div id="behind_radar_offline"></div>
     </div>
     
     <div class="infobox">
@@ -159,10 +201,21 @@ function onDeviceReady() {
 <script>
     $(document).ready(function() {
         
+    hideindicator();
+        
+    var play_choice = localStorage.getItem("play_choice");
+        
+    console.log("Play Hey Taxi?: " + play_choice);
+        
+    if (play_choice == "Yes") { 
     $( "#play_choice_checkbox").prop('checked', true);
-        localStorage.setItem("play_choice", "Yes");
+    }
+    else if (play_choice == "No") { 
+    $( "#play_choice_checkbox").prop('checked', false);
+    }
 
         $( "#play_choice_checkbox" ).click(function() {
+
         var play_choice_checkboxValue = document.getElementById('play_choice_checkbox').checked;
     
         if (play_choice_checkboxValue == false) {
@@ -251,29 +304,50 @@ if (d1 == "2") {
         
     if (data == "driver_late") {
         localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Driver was late!");
+        request_cancelled();
     }
     if (data == "cant_track") {
         localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Can't track driver!");
+        request_cancelled();
     }
     if (data == "cant_reach") {
         localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Can't reach driver");
+        request_cancelled();
     }
     else if (data == "null") {
         localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
+        request_cancelled();
     }
     else if (data == null) {
         localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
+        request_cancelled();
     }
     else if (data == "") {
         localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
+        request_cancelled();
     }
     else {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. "+data+"")
+        localStorage.setItem("cancel_reason","Journey cancelled by passenger. "+data+"");
+        request_cancelled();
     }
 
-    request_cancelled();
     });
 } 
+function request_cancelled() {
+  
+showindicator();
+    
+var cancel_reason = localStorage.getItem("cancel_reason");
+localStorage.setItem('toast',''+cancel_reason+'');toast();
+
+$.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancelled&id_no="+id_no+"",  function( data ) {
+            
+setTimeout(function(){ 
+location.reload();
+}, 8000);
+
+        });
+}
 
 // Passenger has requested journey - Get details and show options
 if (d1 == "1") {
@@ -359,6 +433,8 @@ Play a sound when a passenger calls you
     
 <script>
 function logout_confirm() {
+    
+showindicator();
 
 var logout_confirm = confirm("Are you sure you want to log out?");
 if (logout_confirm == true) {
@@ -373,6 +449,7 @@ if (logout_confirm == true) {
        location.reload(); 
     }
 } else {
+    hideindicator();
     return;
 }
 }    
@@ -427,7 +504,12 @@ if (logout_confirm == true) {
        var passenger_id = document.getElementById("passenger_id").innerHTML;
         
        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=accept&passenger_id="+passenger_id+"",  function( data ) {
-            // alert("Accepted");
+            
+           $( "#view_taxi_journeyrequest" ).fadeOut( "slow", function() {
+            $( "#view_taxi_journeyaccepted" ).fadeIn();
+
+           });
+           
         });
     }
     function request_decline() {
@@ -437,22 +519,37 @@ if (logout_confirm == true) {
             document.getElementById('view_taxi_waiting').style.display = 'block';
         });
     }
-    function request_cancelled() {
+    
+    
+    
+    
+function native_navigation() {
+    
+launchnavigator.navigate(
+  "London, UK",
+  null,
+  function(){
+      alert("Plugin success");
+  },
+  function(error){
+      alert("Plugin error: "+ error);
+  });
+    
+}
 
-        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancelled&id_no="+id_no+"",  function( data ) {
-            var cancel_reason = localStorage.getItem("cancel_reason");
-            alert(cancel_reason);
-            location.reload();
-            // document.getElementById('view_taxi_journeyrequest').style.display = 'none';
-            // document.getElementById('view_taxi_waiting').style.display = 'block';
-        });
-    }
+
 </script>
     
     
     
     
+
     
+<div id="view_taxi_journeyaccepted">
+
+<div onclick="native_navigation();" class="waves-effect waves-light btn black">Navigation Start</div>
+
+</div>
     
     
     

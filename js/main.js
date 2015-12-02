@@ -46,7 +46,7 @@ $('#login_btn_go').click(function(e){
   var $theForm = $(this).closest('form');
   //Some browsers don't implement checkValidity
   if (( typeof($theForm[0].checkValidity) == "function" ) && !$theForm[0].checkValidity()) {
-    alert('Account not found. Please check your ID Number / Username.');
+    localStorage.setItem('toast','Account not found. Please check your ID Number / Username.');toast();
      return;
   }
   login_form_go();
@@ -67,14 +67,14 @@ $.get( "http://250taxi.com/db/partner/taxi_id_check_if_exists.php?id_no="+id_no+
 if (data == "account_found") { 
     check_login();
 }
-if (data == "account_not_found") { 
-    alert('Account not found. Please try again.');
+if (data == "account_not_found") {
+    localStorage.setItem('toast','Account not found. Please try again.');toast();
 }
 
 });
 }
 else {
-    alert('Account type not supported yet.');
+    localStorage.setItem('toast','Account type not supported yet.');toast();
 }
 }
 
@@ -152,6 +152,8 @@ localStorage.setItem("driver_name", data);
             $( "#view_login" ).fadeOut( "slow", function() {
                 $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
                     myVar = setInterval(function(){ myTimer() }, 10000);
+                    localStorage.setItem('toast','Login successful!');toast();
+                    responsiveVoice.speak("PIN Correct! Welcome to twofiftytaxi!", "UK English Male");
                 });
             });
         
@@ -203,6 +205,8 @@ if (login_from_qr_pin === "") {
         if (data == "pin_correct") {
             
             responsiveVoice.speak("PIN Correct! Welcome to twofiftytaxi!", "UK English Male");
+            
+            localStorage.setItem('toast','Login successful!');toast();
 
             localStorage.setItem('loggedin','Yes');
             

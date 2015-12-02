@@ -423,7 +423,12 @@ if (logout_confirm == true) {
     
 <script>
     function request_accept() {
-       location.reload();
+        
+       var passenger_id = document.getElementById("passenger_id").innerHTML;
+        
+       $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=accept&passenger_id="+passenger_id+"",  function( data ) {
+            // alert("Accepted");
+        });
     }
     function request_decline() {
 

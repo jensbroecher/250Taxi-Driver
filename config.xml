@@ -16,6 +16,8 @@
     </author>
 	
 	<icon src="icon.png" />
+        
+    <preference name="android-build-tool" value="gradle" />
 		
 	<!-- Core plugins -->
     <gap:plugin name="cordova-plugin-device" source="npm" />

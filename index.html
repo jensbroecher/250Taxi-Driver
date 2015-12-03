@@ -517,6 +517,9 @@ if (logout_confirm == true) {
     
         localStorage.setItem("request_accepted","Yes");
         
+        document.getElementById("ja_client_location").innerHTML = document.getElementById("passenger_destination").innerHTML;
+        document.getElementById("ja_client_instructions").innerHTML = document.getElementById("passenger_detailed_location").innerHTML;
+        
        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=accept&passenger_id="+passenger_id+"",  function( data ) {
             
            $( "#view_taxi_journeyrequest" ).fadeOut( "slow", function() {

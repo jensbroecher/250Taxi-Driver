@@ -16,8 +16,6 @@
     </author>
 	
 	<icon src="icon.png" />
-        
-    <preference name="android-build-tool" value="gradle" />
 		
 	<!-- Core plugins -->
     <gap:plugin name="cordova-plugin-device" source="npm" />
@@ -34,7 +32,7 @@
     
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
         
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" source="npm" />   
+    <gap:plugin name="cordova-plugin-local-notifications-pgb" source="npm" />   
 
     <gap:plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" />
         

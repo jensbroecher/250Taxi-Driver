@@ -148,7 +148,6 @@ function onDeviceReady() {
     background-color: black;
     width: 100%;
     color: white;
-    opacity: 0.8;
 }
 .infobox {
     background-image: url(img/information-outline.svg);
@@ -381,6 +380,12 @@ var passenger_gps_lat = document.getElementById("passenger_gps_lat").innerHTML;
 var passenger_gps_long = document.getElementById("passenger_gps_long").innerHTML;
 // alert(passenger_gps_long);
         
+// Reverse geocode from map quest
+       
+
+        
+
+        
 $('<img src="https://maps.googleapis.com/maps/api/staticmap?center='+passenger_gps_lat+','+passenger_gps_long+'&zoom=16&size=300x300&maptype=roadmap&markers=color:blue%7Clabel:P%7C'+passenger_gps_lat+','+passenger_gps_long+'&key=AIzaSyDb1A29Jk9FtTZSiHDlfUPM9mHM42cAiRo">').load(function() {
     $("#passenger_on_map").empty();
     $(this).appendTo('#passenger_on_map');
@@ -487,7 +492,9 @@ if (logout_confirm == true) {
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <span class="card-title">Journey Request</span>
-              <p><div id="journeyrequest_passenger_name"></div></p>
+                
+              <div id="journeyrequest_passenger_name"></div>
+              
             </div>
             <div class="card-action">
               <a onclick="request_accept();" href="#">Accept</a>
@@ -499,14 +506,9 @@ if (logout_confirm == true) {
     
     <style>
         #passenger_on_map img {
-            width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-            border: 3px solid white;
+            width: 100%;
         }
     </style>
-    
-    <div id="passenger_on_map"></div>
     
 </div>
     
@@ -517,7 +519,8 @@ if (logout_confirm == true) {
     
         localStorage.setItem("request_accepted","Yes");
         
-        document.getElementById("ja_client_location").innerHTML = document.getElementById("passenger_destination").innerHTML;
+        document.getElementById("ja_client_destination").innerHTML = document.getElementById("passenger_destination").innerHTML;
+
         document.getElementById("ja_client_instructions").innerHTML = document.getElementById("passenger_detailed_location").innerHTML;
         
        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=accept&passenger_id="+passenger_id+"",  function( data ) {
@@ -576,16 +579,22 @@ cordova.plugins.notification.local.schedule({
           <div class="card">
             <div class="card-image">
               <img src="img/kigali.jpg">
-              <span class="card-title">Journey accepted</span>
+              <span class="card-title">Pickup Location</span>
             </div>
             <div class="card-content">
+                
+<div id="passenger_on_map"></div>
+                
+        <div style="height:10px;"></div>
 
-        <p>
-        Client Location: <span id="ja_client_location">Loading...</span><br>
-        Additional Instructions: <span id="ja_client_instructions">Loading...</span>
-        </p>
+        <span style="display:none;">Client Location: <span id="ja_client_location">Loading...</span></span>
+                
+        Additional Instructions: <span id="ja_client_instructions">Loading...</span><br>
+
+        <span style="display:none;">Client Destination: <span id="ja_client_destination">Loading...</span></span>
 
             </div>
+              
             <div class="card-action">
                 
               <div onclick="native_navigation();" class="waves-effect waves-light btn black">   
@@ -594,6 +603,7 @@ cordova.plugins.notification.local.schedule({
 </svg> Turn-by-turn</div>
                 
             </div>
+              
           </div>
         </div>
       </div>

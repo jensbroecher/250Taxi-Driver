@@ -24,6 +24,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
 <script type="text/javascript">
+
+function distance(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;    // Math.PI / 180
+  var c = Math.cos;
+  var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+          c(lat1 * p) * c(lat2 * p) * 
+          (1 - c((lon2 - lon1) * p))/2;
+
+  return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
     
 function showindicator() {
 document.getElementById("loadingindicator").className = "animated fadeIn";
@@ -47,6 +57,7 @@ $(document).ready(function() {
     
 // Resets
 localStorage.removeItem("request_accepted");
+localStorage.removeItem("passenger_detailed_location_instructions");
     
 $.get( "http://250taxi.com/db/partner/check_app_update.php?check=driver",  function( data ) {
     var currentversion = "1";
@@ -268,16 +279,46 @@ navigator.geolocation.getCurrentPosition(showPosition);
 function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
+
     console.log(latitude);
-    console.log(longitude);
+    console.log(longitude);  
     
-    status = localStorage.getItem("status");
+var passenger_detailed_location_instructions = localStorage.getItem("passenger_detailed_location_instructions");
+
+if (passenger_detailed_location_instructions == "Yes") {
     
-    var loggedin = localStorage.getItem('loggedin');
+$.get( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"",  function( data ) {
     
-    if (loggedin == 'Yes') {
-        id_no = localStorage.getItem("id_no");
-    }
+journeyrequest_passenger_name = data;
+    
+document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
+    
+
+
+var ja_client_instructions = document.getElementById("passenger_detailed_location").innerHTML;
+    
+console.log("Detailed Instructions:" + ja_client_instructions);
+
+ja_client_instructions_length = ja_client_instructions.length;
+
+if (ja_client_instructions_length < 1) {
+document.getElementById("ja_client_instructions").innerHTML = "Not given"  
+}
+if (ja_client_instructions_length > 1) {
+document.getElementById("ja_client_instructions").innerHTML = ja_client_instructions;
+}
+    
+});
+    
+}
+    
+status = localStorage.getItem("status");
+    
+var loggedin = localStorage.getItem('loggedin');
+    
+if (loggedin == 'Yes') {
+    id_no = localStorage.getItem("id_no");
+}
 
     $.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status="+status+"&latitude="+latitude+"&longitude="+longitude+"", function( data ) {
         
@@ -371,20 +412,28 @@ journeyrequest_passenger_name = data;
 
 document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
         
-var passenger_id = document.getElementById("passenger_id").innerHTML;
+
+        
+passenger_id = document.getElementById("passenger_id").innerHTML;
 // alert(passenger_id);
         
-var passenger_gps_lat = document.getElementById("passenger_gps_lat").innerHTML;
+passenger_gps_lat = document.getElementById("passenger_gps_lat").innerHTML;
 // alert(passenger_gps_lat);
         
-var passenger_gps_long = document.getElementById("passenger_gps_long").innerHTML;
+passenger_gps_long = document.getElementById("passenger_gps_long").innerHTML;
 // alert(passenger_gps_long);
         
-// Reverse geocode from map quest
+// Calculate Distance Driver Passenger
        
+var driver_client_distance = distance(passenger_gps_lat,passenger_gps_long,latitude,longitude);
+var driver_client_distance = parseFloat(driver_client_distance).toFixed(2);
 
+console.log("Distance: "+driver_client_distance+" km");
         
-
+document.getElementById("driver_client_distance").innerHTML = driver_client_distance;
+        
+        
+        
         
 $('<img src="https://maps.googleapis.com/maps/api/staticmap?center='+passenger_gps_lat+','+passenger_gps_long+'&zoom=16&size=300x300&maptype=roadmap&markers=color:blue%7Clabel:P%7C'+passenger_gps_lat+','+passenger_gps_long+'&key=AIzaSyDb1A29Jk9FtTZSiHDlfUPM9mHM42cAiRo">').load(function() {
     $("#passenger_on_map").empty();
@@ -494,6 +543,9 @@ if (logout_confirm == true) {
               <span class="card-title">Journey Request</span>
                 
               <div id="journeyrequest_passenger_name"></div>
+                
+                <br>
+                PICK UP LOCATION: <span id="driver_client_distance"></span> km
               
             </div>
             <div class="card-action">
@@ -514,14 +566,26 @@ if (logout_confirm == true) {
     
 <script>
     function request_accept() {
+    
+    // Location loop should check for additional instructions
+    localStorage.setItem("passenger_detailed_location_instructions","Yes");
         
        var passenger_id = document.getElementById("passenger_id").innerHTML;
     
         localStorage.setItem("request_accepted","Yes");
         
         document.getElementById("ja_client_destination").innerHTML = document.getElementById("passenger_destination").innerHTML;
-
-        document.getElementById("ja_client_instructions").innerHTML = document.getElementById("passenger_detailed_location").innerHTML;
+        
+        phone = document.getElementById("passenger_phone").innerHTML;
+        
+        phone = phone.trim();
+        
+        phone_length = phone.length;
+        // alert(phone_length);
+        if (phone_length > 5) {
+            document.getElementById("phone_button").style.display = "inline";
+            $( "#phone_button_tel" ).attr("href", "tel:+"+phone+"");
+        }
         
        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=accept&passenger_id="+passenger_id+"",  function( data ) {
             
@@ -536,6 +600,7 @@ if (logout_confirm == true) {
 
         $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=decline&id_no="+id_no+"",  function( data ) {
             document.getElementById('view_taxi_journeyrequest').style.display = 'none';
+            document.getElementById('view_taxi_journeyaccepted').style.display = 'none';
             document.getElementById('view_taxi_waiting').style.display = 'block';
         });
     }
@@ -546,13 +611,13 @@ if (logout_confirm == true) {
 function native_navigation() {
     
 launchnavigator.navigate(
-  "London, UK",
+  ""+passenger_gps_lat+", "+passenger_gps_long+"",
   null,
   function(){
-      alert("Plugin success");
+      console.log("launchnavigator Plugin success");
   },
   function(error){
-      alert("Plugin error: "+ error);
+      console.log("Plugin error: "+ error);
   });
 
 cordova.plugins.notification.local.schedule({
@@ -589,7 +654,7 @@ cordova.plugins.notification.local.schedule({
 
         <span style="display:none;">Client Location: <span id="ja_client_location">Loading...</span></span>
                 
-        Additional Instructions: <span id="ja_client_instructions">Loading...</span><br>
+        <h5>Additional Instructions: <span id="ja_client_instructions">Not given</span></h5><br>
 
         <span style="display:none;">Client Destination: <span id="ja_client_destination">Loading...</span></span>
 
@@ -607,8 +672,38 @@ cordova.plugins.notification.local.schedule({
           </div>
         </div>
       </div>
+    
+    
+    
 
+      <div class="col s12" style="margin-top: -15px;">
+        <div class="card-panel grey">
+          
+        <span id="phone_button">
+        <a id="phone_button_tel" href="">
+        <div class="waves-effect waves-light btn black">   
+           <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M4,3A1,1 0 0,0 3,4A17,17 0 0,0 20,21A1,1 0 0,0 21,20V16.5A1,1 0 0,0 20,15.5C18.75,15.5 17.55,15.3 16.43,14.93C16.08,14.82 15.69,14.9 15.41,15.17L13.21,17.37C10.38,15.93 8.06,13.62 6.62,10.78L8.82,8.57C9.1,8.31 9.18,7.92 9.07,7.57C8.7,6.45 8.5,5.25 8.5,4A1,1 0 0,0 7.5,3H4M15,3V4.5H18.5L13,10L14,11L19.5,5.5V9H21V3H15Z" />
+</svg> Call</div>
+        </a>
+        </span>
+            
+<div onclick="localStorage.setItem('toast','Chat option coming soon...');toast();" class="waves-effect waves-light btn black">   
+           <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" />
+</svg> Chat</div>    
+            
+        </div>
+      </div>    
+    
+<div style="display:none;" onclick="request_decline();" class="waves-effect waves-light btn red">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" />
+</svg> Cancel Journey</div>
+    
 </div>
+    
+
     
     
     

@@ -280,6 +280,7 @@ function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
 
+    console.log("Driver Location");
     console.log(latitude);
     console.log(longitude);  
     
@@ -417,11 +418,11 @@ document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequ
 passenger_id = document.getElementById("passenger_id").innerHTML;
 // alert(passenger_id);
         
+console.log("Passenger Location");
 passenger_gps_lat = document.getElementById("passenger_gps_lat").innerHTML;
-// alert(passenger_gps_lat);
-        
+console.log(passenger_gps_lat);        
 passenger_gps_long = document.getElementById("passenger_gps_long").innerHTML;
-// alert(passenger_gps_long);
+console.log(passenger_gps_long);
         
 // Calculate Distance Driver Passenger
        

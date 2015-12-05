@@ -55,6 +55,13 @@ screen.lockOrientation('portrait');
 
 $(document).ready(function() {
     
+if("language_type" in localStorage){
+    document.getElementById("select_language").style.display = "block";
+}
+else {
+    document.getElementById("select_language").style.display = "none";
+}
+    
 // Resets
 localStorage.removeItem("request_accepted");
 localStorage.removeItem("passenger_detailed_location_instructions");
@@ -63,7 +70,7 @@ $.get( "http://250taxi.com/db/partner/check_app_update.php?check=driver",  funct
     var currentversion = "1";
     var serverversion = data;
     if (currentversion < serverversion) {
-        alert("Your app is outdated. Please install the update from google play.");
+        alert("Your app is outdated. Please install the update.");
         window.open('http://250taxi.com/getupdate/driver.php', '_system');
     }
 });
@@ -91,10 +98,77 @@ function onDeviceReady() {
 <img src="img/282.gif" width="120">
 </div>
     
+    
+    
+    
+ 
+<div id="select_language">
+    
+<img class="animated zoomIn" style="width: 40%; margin-top: 10%; max-width: 200px;" src="icon.png">
+
+<div class="animated fadeIn" style="padding:20px;">
+<div class="input-field col s12">
+    <select id="language_type" required="" aria-required="true">
+        <option value="" disabled selected>Language</option>
+        <option value="lang_english">English</option>
+        <option value="lang_kinyarwanda">Kinyarwanda</option>
+    </select>
+</div>
+    
+    <img class="animated fadeIn" style="width: 40%; margin-top: 10%; max-width: 200px;" id="language_flag" src="img/flag.png">
+    
+</div>
+    
+</div>
+    
+<script>
+$( "#language_type" ).change(function() {
+    language_type = document.getElementById('language_type').value;
+    localStorage.setItem("language",language_type);
+    if (language_type == "lang_english") {
+        localStorage.setItem('toast','English');toast();
+        document.getElementById("language_flag").src = "img/en.png";
+        setTimeout(function(){
+        document.getElementById("select_language").className = "animated zoomOut";
+        }, 2000);
+        setTimeout(function(){
+        document.getElementById("select_language").style.display = "none";
+        }, 3500);
+    }
+    if (language_type == "lang_kinyarwanda") {
+        localStorage.setItem('toast','Kinyarwanda');toast();
+        document.getElementById("language_flag").src = "img/rw.png";
+        setTimeout(function(){
+        document.getElementById("select_language").className = "animated zoomOut";
+        }, 2000);
+        setTimeout(function(){
+        document.getElementById("select_language").style.display = "none";
+        }, 3500);
+    }
+});
+function show_language_picker() {
+    setTimeout(function(){
+        document.getElementById("select_language").className = "animated zoomIn";
+        document.getElementById("select_language").style.display = "block";
+    }, 500);
+}
+</script>
+    
+    
+    
+    
+    
 <div id="view_start">
 <img id="logo" src="icon.png">
 <br><br>
 <a id="login_btn" class="waves-effect waves-light btn taxi250">Partner-Login</a>
+    
+<a onclick="show_language_picker();" id="login_btn_language" class="waves-effect waves-light btn taxi250">
+   <svg style="width:30px;height:30px;margin-top:3px;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+</svg> 
+</a>
+
 <br><br>
 <a id="login_btn_register" class="waves-effect waves-light btn taxi250">Register</a>
 <span style="display:none;">
@@ -103,6 +177,8 @@ function onDeviceReady() {
 </span>
 <br><br>
 <a id="login_btn_corporate" class="waves-effect waves-dark btn white grey-text">Hotel / Corporate</a>
+
+
 </div>
     
 <div id="view_login">
@@ -110,7 +186,7 @@ function onDeviceReady() {
 <form id="login_form" action="javascript:login_form_go();" class="col s12">
     
 <div class="row">
-      <div class="col s12 m5">
+      <div class="col s12">
         <div class="card-panel white">
 
 <div class="arrow_back" onclick="back_to_start();">
@@ -142,7 +218,7 @@ function onDeviceReady() {
     </form>
     
 <div class="row">
-      <div class="col s12 m5">
+      <div class="col s12">
         <div class="card-panel white">
         <img id="scan_qr" src="img/scan_qr.png">
           <a id="login_btn_qr" class="waves-effect waves-light btn taxi250" onclick="scancode();">Scan QR-Code</a>  
@@ -194,13 +270,13 @@ function onDeviceReady() {
     
     
     <div id="radar"><br>
-    <img src="img/220.gif" style="width:60%;"><br>
+    <img src="img/220.gif" style="width:60%;max-width:300px;"><br>
         Waiting for passengers...<br>You are visible!<br><br>
     <div id="behind_radar"></div>
     </div>
     
     <div id="radar_offline" style="display:none;"><br>
-    <img src="img/offline.png" style="width:60%;"><br>
+    <img src="img/offline.png" style="width:60%;max-width:300px;"><br>
         You aren't visible.<br>Passengers can't find you!<br><br>
     <div id="behind_radar_offline"></div>
     </div>
@@ -470,7 +546,7 @@ getLocationUpdate();
     <br>
 
     <div class="row">
-      <div class="col s12 m5">
+      <div class="col s12">
         <div class="card-panel white">
           <span class="black-text">
               
@@ -538,7 +614,7 @@ if (logout_confirm == true) {
 <audio id="snd_hey_taxi" style="display:none;" src="http://250taxi.com/sounds/callcab.mp3"></audio>
     
     <div id="journeyrequest_passenger_cards" class="row">
-        <div class="col s12 m6">
+        <div class="col s12">
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <span class="card-title">Journey Request</span>

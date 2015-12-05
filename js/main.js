@@ -141,8 +141,6 @@ if (partner_type == "TX_") {
     $.get( "http://250taxi.com/db/partner/taxi_id_get_name.php?id_no="+id_no+"", function( data ) {
         
 localStorage.setItem("driver_name", data);
-        
-     responsiveVoice.speak("Scan complete! Welcome to twofiftytaxi!", "UK English Male");
 
     localStorage.setItem('loggedin','Yes');
             
@@ -153,7 +151,7 @@ localStorage.setItem("driver_name", data);
                 $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
                     myVar = setInterval(function(){ myTimer() }, 10000);
                     localStorage.setItem('toast','Login successful!');toast();
-                    responsiveVoice.speak("PIN Correct! Welcome to twofiftytaxi!", "UK English Male");
+                    responsiveVoice.speak("Welcome to twofiftytaxi!", "UK English Male");
                 });
             });
         

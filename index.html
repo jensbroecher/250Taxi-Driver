@@ -88,6 +88,11 @@ function onDeviceReady() {
     
 <script>
 $( document ).ready(function() {
+
+if (localStorage.getItem("language") === null) {
+    localStorage.setItem("language","lang_english");
+}
+
 checklang();
 });
 
@@ -179,15 +184,20 @@ function show_language_picker() {
 <img class="animated zoomIn" style="width: 40%; margin-top: 10%; max-width: 200px;" src="icon.png">
 
 <div class="animated fadeIn" style="padding:20px;">
-<div class="input-field col s12">
+<div class="row">
+<div class="col s4">
+<img class="animated fadeIn" style="width: 100%; margin-top: 23%; max-width: 200px;" id="language_flag" src="img/flag.png">
+</div>
+<div class="input-field col s8">
     <select id="language_type" required="" aria-required="true">
         <option value="" disabled selected>Language</option>
         <option value="lang_english">English</option>
         <option value="lang_kinyarwanda">Kinyarwanda</option>
     </select>
 </div>
+</div>
     
-    <img class="animated fadeIn" style="width: 40%; margin-top: 10%; max-width: 200px;" id="language_flag" src="img/flag.png">
+
     
 </div>
     
@@ -335,18 +345,35 @@ function show_language_picker() {
     
     <div id="radar"><br>
     <img src="img/220.gif" style="width:60%;max-width:300px;"><br>
-        Waiting for passengers...<br>You are visible!<br><br>
+        
+
+<span class="lang_show english">Waiting for passengers...<br>You are visible!</span>
+<span class="lang_show rwanda">UTEGEREJE ABAGENZI<br>URAGARAGARA</span>
+        
+        
+        
+        
+        
+        <br><br>
     <div id="behind_radar"></div>
     </div>
     
     <div id="radar_offline" style="display:none;"><br>
     <img src="img/offline.png" style="width:60%;max-width:300px;"><br>
-        You aren't visible.<br>Passengers can't find you!<br><br>
+        
+<span class="lang_show english">You aren't visible.<br>Passengers can't find you!</span>
+<span class="lang_show rwanda">UTEGEREJE ABAGENZI<br>NTUGARAGARA</span>       
+        
+        <br><br>
     <div id="behind_radar_offline"></div>
     </div>
     
     <div class="infobox">
-    The app has to stay open for best performance
+        
+<span class="lang_show english">The app has to stay open for best performance</span>
+<span class="lang_show rwanda">IYI APILIKASIYO IGOMBA GUHORA IFUNGUYE KUGIRA NGO IKORE NEZA</span>
+        
+    
     </div>
     
 
@@ -614,19 +641,35 @@ getLocationUpdate();
         <div class="card-panel white">
           <span class="black-text">
               
-Choose if you are visible to passengers
+<span class="lang_show english">Choose if you are visible to passengers</span>
+<span class="lang_show rwanda">HITAMO NIBA UGARAGARA KUBA GENZI</span>   
+              
 <br><br>
     <!-- Switch -->
   <div id="toggle_online" class="switch">
     <label>
-      Hidden
+        
+        <span class="lang_show english">Hidden</span>
+<span class="lang_show rwanda">NTUGARAGARA</span>
+        
+      
+        
       <input id="toggle_online_checkbox" type="checkbox">
       <span class="lever"></span>
-      Visible
+        
+      
+        
+            <span class="lang_show english">Visible</span>
+<span class="lang_show rwanda">URAGARAGARA</span>
+        
     </label>
   </div>
     <br>
-Play a sound when a passenger calls you
+              
+<span class="lang_show english">Play a sound when a passenger calls you</span>
+<span class="lang_show rwanda">GUKINA UMUZIKI UMUGENZIAHAMAGAYE</span>            
+              
+
 <br><br>
     <input type="checkbox" class="filled-in" id="play_choice_checkbox" checked="checked" />
     <label for="play_choice_checkbox">Play <i>Hey Taxi!</i></label>
@@ -641,13 +684,13 @@ Play a sound when a passenger calls you
 
 <a onclick="logout_confirm();" class="waves-effect waves-light btn red">
     
-<svg style="width:24px;height:24px:vertical-align:middle;" viewBox="0 0 24 24">
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z" />
 </svg> 
 
 <span class="lang_show english">Logout</span>
 <span class="lang_show rwanda">SOHOKAMO</span>
-    
+ 
 <span id="driver_name"></span></a>
     
 <script>
@@ -694,17 +737,43 @@ if (logout_confirm == true) {
         <div class="col s12">
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
-              <span class="card-title">Journey Request</span>
+              <span class="card-title">
+                  
+                  
+<span class="lang_show english">Journey Request</span>
+<span class="lang_show rwanda">SABA URUGENDO</span>
+                  
+                  
+                
+                </span>
                 
               <div id="journeyrequest_passenger_name"></div>
                 
                 <br>
-                PICK UP LOCATION: <span id="driver_client_distance"></span> km
+                
+                <span class="lang_show english">PICK UP LOCATION: </span>
+<span class="lang_show rwanda">AHO UFATIRA UMUGENZI: </span>
+                
+                <span id="driver_client_distance"></span> km
               
             </div>
             <div class="card-action">
-              <a onclick="request_accept();" href="#">Accept</a>
-              <a onclick="request_decline();" href="#">Decline</a>
+              <a onclick="request_accept();" href="#">
+                  
+                  <span class="lang_show english">Accept</span>
+<span class="lang_show rwanda">EMEZA</span>
+                  
+                  
+                
+                </a>
+              <a onclick="request_decline();" href="#">
+                  
+                  <span class="lang_show english">Decline</span>
+<span class="lang_show rwanda">HAKANA</span>
+                  
+                  
+                
+                </a>
             </div>
           </div>
         </div>
@@ -838,14 +907,28 @@ cordova.plugins.notification.local.schedule({
         <div class="waves-effect waves-light btn black">   
            <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M4,3A1,1 0 0,0 3,4A17,17 0 0,0 20,21A1,1 0 0,0 21,20V16.5A1,1 0 0,0 20,15.5C18.75,15.5 17.55,15.3 16.43,14.93C16.08,14.82 15.69,14.9 15.41,15.17L13.21,17.37C10.38,15.93 8.06,13.62 6.62,10.78L8.82,8.57C9.1,8.31 9.18,7.92 9.07,7.57C8.7,6.45 8.5,5.25 8.5,4A1,1 0 0,0 7.5,3H4M15,3V4.5H18.5L13,10L14,11L19.5,5.5V9H21V3H15Z" />
-</svg> Call</div>
+</svg> 
+            
+            <span class="lang_show english">Call</span>
+<span class="lang_show rwanda">HAMAGARA</span>
+            
+            
+            
+            
+            
+            
+            </div>
         </a>
         </span>
             
 <div onclick="localStorage.setItem('toast','Chat option coming soon...');toast();" class="waves-effect waves-light btn black">   
            <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" />
-</svg> Chat</div>    
+</svg> 
+    
+                <span class="lang_show english">Chat</span>
+<span class="lang_show rwanda">UBUTUMWA BUGUFI</span>
+    </div>    
             
         </div>
       </div>    
@@ -942,13 +1025,24 @@ body {
     <div onclick="localStorage.setItem('corporate_login_type','hotel');corporate_login_start();" class="modal250_cancel_button">
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M19,7H11V14H3V5H1V20H3V17H21V20H23V11A4,4 0 0,0 19,7M7,13A3,3 0 0,0 10,10A3,3 0 0,0 7,7A3,3 0 0,0 4,10A3,3 0 0,0 7,13Z" />
-</svg> Hotel Account</div>
+</svg>  
+        
+<span class="lang_show english">Hotel Account</span>
+<span class="lang_show rwanda">AMAHOTELI</span>
+        
+        
+    
+    
+    </div>
 
     <div onclick="localStorage.setItem('corporate_login_type','corporate');corporate_login_start();" class="modal250_cancel_button">
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M14,6H10V4H14M20,6H16V4L14,2H10L8,4V6H4C2.89,6 2,6.89 2,8V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V8C22,6.89 21.1,6 20,6Z" />
-</svg>
-        Corporate Account</div>
+</svg> 
+        
+        <span class="lang_show english">Corporate Account</span>
+<span class="lang_show rwanda">IBIGO</span>
+        </div>
     
     <div style="padding: 5px; background-color: lightgrey;">
         

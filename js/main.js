@@ -16,7 +16,7 @@ if (loggedin == 'Yes') {
     wasloggedin();
 }
 
-$( "#login_btn" ).click(function() {
+$( "#login_btn, #login_btn_rwanda" ).click(function() {
     
 $( "#view_start" ).fadeOut( "slow", function() {
   $( "#view_login" ).fadeIn( "slow", function() {

@@ -55,13 +55,6 @@ screen.lockOrientation('portrait');
 
 $(document).ready(function() {
     
-if("language_type" in localStorage){
-    document.getElementById("select_language").style.display = "block";
-}
-else {
-    document.getElementById("select_language").style.display = "none";
-}
-    
 // Resets
 localStorage.removeItem("request_accepted");
 localStorage.removeItem("passenger_detailed_location_instructions");
@@ -89,6 +82,85 @@ function onDeviceReady() {
     }, false );
 }
 </script>
+    
+    
+    
+    
+<script>
+$( document ).ready(function() {
+checklang();
+});
+
+function checklang() {
+
+lang = localStorage.getItem('language');
+    
+console.log(lang);
+    
+var x = document.getElementsByClassName("english");
+var i;
+for (i = 0; i < x.length; i++) {
+    x[i].className = "english lang_show";
+}
+var x = document.getElementsByClassName("rwanda");
+var i;
+for (i = 0; i < x.length; i++) {
+    x[i].className = "rwanda lang_show";
+}
+
+if(lang == 'lang_kinyarwanda') {
+	$(".rwanda").removeClass("lang_show");
+}
+if(lang == 'lang_english') {
+	$(".english").removeClass("lang_show");
+}
+else if(lang == '') {
+    $(".english").removeClass("lang_show");
+    localStorage.setItem("language","lang_english");
+}
+
+}
+
+$( document ).ready(function() {
+$( "#language_type" ).change(function() {
+
+    language_type = document.getElementById('language_type').value;
+    localStorage.setItem("language",language_type);
+    
+    if (language_type == "lang_english") {
+        checklang();
+        localStorage.setItem('toast','English');toast();
+        document.getElementById("language_flag").src = "img/en.png";
+        setTimeout(function(){
+        document.getElementById("select_language").className = "animated zoomOut";
+        }, 2000);
+        setTimeout(function(){
+        document.getElementById("select_language").style.display = "none";
+        }, 3500);
+    }
+    if (language_type == "lang_kinyarwanda") {
+        checklang();
+        localStorage.setItem('toast','Kinyarwanda');toast();
+        document.getElementById("language_flag").src = "img/rw.png";
+        setTimeout(function(){
+        document.getElementById("select_language").className = "animated zoomOut";
+        }, 2000);
+        setTimeout(function(){
+        document.getElementById("select_language").style.display = "none";
+        }, 3500);
+    }
+});
+});
+
+function show_language_picker() {
+    setTimeout(function(){
+        document.getElementById("select_language").className = "animated zoomIn";
+        document.getElementById("select_language").style.display = "block";
+    }, 500);
+}
+</script>
+    
+    
 
 </head>
 
@@ -119,64 +191,56 @@ function onDeviceReady() {
     
 </div>
     
-</div>
-    
-<script>
-$( "#language_type" ).change(function() {
-    language_type = document.getElementById('language_type').value;
-    localStorage.setItem("language",language_type);
-    if (language_type == "lang_english") {
-        localStorage.setItem('toast','English');toast();
-        document.getElementById("language_flag").src = "img/en.png";
-        setTimeout(function(){
-        document.getElementById("select_language").className = "animated zoomOut";
-        }, 2000);
-        setTimeout(function(){
-        document.getElementById("select_language").style.display = "none";
-        }, 3500);
-    }
-    if (language_type == "lang_kinyarwanda") {
-        localStorage.setItem('toast','Kinyarwanda');toast();
-        document.getElementById("language_flag").src = "img/rw.png";
-        setTimeout(function(){
-        document.getElementById("select_language").className = "animated zoomOut";
-        }, 2000);
-        setTimeout(function(){
-        document.getElementById("select_language").style.display = "none";
-        }, 3500);
-    }
-});
-function show_language_picker() {
-    setTimeout(function(){
-        document.getElementById("select_language").className = "animated zoomIn";
-        document.getElementById("select_language").style.display = "block";
-    }, 500);
-}
-</script>
-    
-    
-    
+</div>    
     
     
 <div id="view_start">
 <img id="logo" src="icon.png">
 <br><br>
-<a id="login_btn" class="waves-effect waves-light btn taxi250">Partner-Login</a>
+<span class="lang_show english">
+<a id="login_btn" class="waves-effect waves-light btn taxi250">
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M10,17.25V14H3V10H10V6.75L15.25,12L10,17.25M8,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H8A2,2 0 0,1 6,20V16H8V20H17V4H8V8H6V4A2,2 0 0,1 8,2Z" />
+</svg>    
+    Partner-Login
+</a></span>
     
-<a onclick="show_language_picker();" id="login_btn_language" class="waves-effect waves-light btn taxi250">
-   <svg style="width:30px;height:30px;margin-top:3px;" viewBox="0 0 24 24">
-    <path fill="#FFFFFF" d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-</svg> 
+<span class="lang_show rwanda">
+ <a id="login_btn_rwanda" class="waves-effect waves-light btn_rwanda taxi250">   
+   <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M10,17.25V14H3V10H10V6.75L15.25,12L10,17.25M8,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H8A2,2 0 0,1 6,20V16H8V20H17V4H8V8H6V4A2,2 0 0,1 8,2Z" />
+</svg> KWINJIRA KWABAFATANYABIKORWA
 </a>
+</span>
 
 <br><br>
-<a id="login_btn_register" class="waves-effect waves-light btn taxi250">Register</a>
-<span style="display:none;">
+<a id="login_btn_register" class="waves-effect waves-light btn taxi250">
+    
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z" />
+</svg>
+    
+    
+    <span class="lang_show english">Register</span>
+    <span class="lang_show rwanda">IYANDIKISHE</span>
+    
+    </a>
 <br><br>
+<span style="display:none;">
 <a href="qr/index.html" class="waves-effect waves-dark btn white grey-text">QR Test</a>
 </span>
+<a onclick="show_language_picker();" id="login_btn_language" class="waves-effect waves-light btn taxi250">
+   <svg style="width:24px;height:24px;vertical-align: middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+</svg> Language
+</a> 
 <br><br>
-<a id="login_btn_corporate" class="waves-effect waves-dark btn white grey-text">Hotel / Corporate</a>
+<a id="login_btn_corporate" class="waves-effect waves-dark btn white grey-text">
+    
+    <span class="lang_show english">Hotel / Corporate</span>
+    <span class="lang_show rwanda">AMAHOTELI / IBIGO</span>
+    
+</a>
 
 
 </div>
@@ -572,7 +636,19 @@ Play a sound when a passenger calls you
       </div>
     </div>
 
-<a onclick="logout_confirm();" class="waves-effect waves-light btn red">Logout <span id="driver_name"></span></a>
+
+
+
+<a onclick="logout_confirm();" class="waves-effect waves-light btn red">
+    
+<svg style="width:24px;height:24px:vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z" />
+</svg> 
+
+<span class="lang_show english">Logout</span>
+<span class="lang_show rwanda">SOHOKAMO</span>
+    
+<span id="driver_name"></span></a>
     
 <script>
 function logout_confirm() {
@@ -581,6 +657,7 @@ showindicator();
 
 var logout_confirm = confirm("Are you sure you want to log out?");
 if (logout_confirm == true) {
+    localStorage.setItem("status", "offline");
     localStorage.removeItem('loggedin');
     responsiveVoice.speak("Goodbye, see you again soon!", "UK English Male");
     
@@ -862,9 +939,16 @@ body {
 
     <div class="modal250_title">Corporate Login</div>
     
-    <div onclick="localStorage.setItem('corporate_login_type','hotel');corporate_login_start();" class="modal250_cancel_button">Hotel Account</div>
+    <div onclick="localStorage.setItem('corporate_login_type','hotel');corporate_login_start();" class="modal250_cancel_button">
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M19,7H11V14H3V5H1V20H3V17H21V20H23V11A4,4 0 0,0 19,7M7,13A3,3 0 0,0 10,10A3,3 0 0,0 7,7A3,3 0 0,0 4,10A3,3 0 0,0 7,13Z" />
+</svg> Hotel Account</div>
 
-    <div onclick="localStorage.setItem('corporate_login_type','corporate');corporate_login_start();" class="modal250_cancel_button">Corporate Account</div>
+    <div onclick="localStorage.setItem('corporate_login_type','corporate');corporate_login_start();" class="modal250_cancel_button">
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M14,6H10V4H14M20,6H16V4L14,2H10L8,4V6H4C2.89,6 2,6.89 2,8V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V8C22,6.89 21.1,6 20,6Z" />
+</svg>
+        Corporate Account</div>
     
     <div style="padding: 5px; background-color: lightgrey;">
         
@@ -883,9 +967,21 @@ body {
     
     <div style="display:none;" onclick="hotel_card_deactivate_test();" class="modal250_cancel_button">Test</div>
     
-    <div onclick="hotel_card_menu_scancode_activate();" class="modal250_cancel_button">Activate Card</div>
+    <div onclick="hotel_card_menu_scancode_activate();" class="modal250_cancel_button">
+        
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M4,4H10V10H4V4M20,4V10H14V4H20M14,15H16V13H14V11H16V13H18V11H20V13H18V15H20V18H18V20H16V18H13V20H11V16H14V15M16,15V18H18V15H16M4,20V14H10V20H4M6,6V8H8V6H6M16,6V8H18V6H16M6,16V18H8V16H6M4,11H6V13H4V11M9,11H13V15H11V13H9V11M11,6H13V10H11V6M2,2V6H0V2A2,2 0 0,1 2,0H6V2H2M22,0A2,2 0 0,1 24,2V6H22V2H18V0H22M2,18V22H6V24H2A2,2 0 0,1 0,22V18H2M22,22V18H24V22A2,2 0 0,1 22,24H18V22H22Z" />
+</svg> 
+        
+        Activate Card</div>
 
-    <div onclick="hotel_card_menu_scancode_deactivate();" class="modal250_cancel_button">Deactivate Card<br>(Clear Balance)</div>
+    <div onclick="hotel_card_menu_scancode_deactivate();" class="modal250_cancel_button">
+        
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M4,4H10V10H4V4M20,4V10H14V4H20M14,15H16V13H14V11H16V13H18V11H20V13H18V15H20V18H18V20H16V18H13V20H11V16H14V15M16,15V18H18V15H16M4,20V14H10V20H4M6,6V8H8V6H6M16,6V8H18V6H16M6,16V18H8V16H6M4,11H6V13H4V11M9,11H13V15H11V13H9V11M11,6H13V10H11V6M2,2V6H0V2A2,2 0 0,1 2,0H6V2H2M22,0A2,2 0 0,1 24,2V6H22V2H18V0H22M2,18V22H6V24H2A2,2 0 0,1 0,22V18H2M22,22V18H24V22A2,2 0 0,1 22,24H18V22H22Z" />
+</svg> 
+        
+        Deactivate Card<br>(Clear Balance)</div>
     
     <div style="padding: 5px; background-color: lightgrey;">
         

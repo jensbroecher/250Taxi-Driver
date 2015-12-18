@@ -607,7 +607,7 @@ document.getElementById("driver_client_distance").innerHTML = driver_client_dist
         
         
         
-$('<img src="https://maps.googleapis.com/maps/api/staticmap?center='+passenger_gps_lat+','+passenger_gps_long+'&zoom=16&size=300x300&maptype=roadmap&markers=color:blue%7Clabel:P%7C'+passenger_gps_lat+','+passenger_gps_long+'&key=AIzaSyDb1A29Jk9FtTZSiHDlfUPM9mHM42cAiRo">').load(function() {
+$('<img src="https://maps.googleapis.com/maps/api/staticmap?center='+passenger_gps_lat+','+passenger_gps_long+'&zoom=15&size=600x600&maptype=roadmap&markers=color:blue%7Clabel:P%7C'+passenger_gps_lat+','+passenger_gps_long+'&key=AIzaSyDb1A29Jk9FtTZSiHDlfUPM9mHM42cAiRo">').load(function() {
     $("#passenger_on_map").empty();
     $(this).appendTo('#passenger_on_map');
 });
@@ -868,81 +868,62 @@ cordova.plugins.notification.local.schedule({
     
 <div id="view_taxi_journeyaccepted">
     
+<div id="passenger_on_map"></div>
+    
 <div class="row">
         <div class="col s12">
           <div class="card">
-            <div class="card-image">
-              <img src="img/kigali.jpg">
-              <span class="card-title">Pickup Location</span>
-            </div>
             <div class="card-content">
-                
-<div id="passenger_on_map"></div>
-                
-        <div style="height:10px;"></div>
 
         <span style="display:none;">Client Location: <span id="ja_client_location">Loading...</span></span>
                 
-        <h5>Additional Instructions: <span id="ja_client_instructions">Not given</span></h5><br>
-
-        <span style="display:none;">Client Destination: <span id="ja_client_destination">Loading...</span></span>
+        Additional Instructions: <span id="ja_client_instructions">Not given</span><br>
+        <span>Client Destination: <span id="ja_client_destination">Loading...</span></span>
 
             </div>
               
-            <div class="card-action">
+      
                 
               <div onclick="native_navigation();" class="waves-effect waves-light btn black">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-</svg> Turn-by-turn</div>
+</svg> Navigate</div>
+              <br><br>
                 
-            </div>
+                
+<span id="phone_button"><a id="phone_button_tel" href=""><div class="waves-effect waves-light btn black">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+<path fill="#FFFFFF" d="M4,3A1,1 0 0,0 3,4A17,17 0 0,0 20,21A1,1 0 0,0 21,20V16.5A1,1 0 0,0 20,15.5C18.75,15.5 17.55,15.3 16.43,14.93C16.08,14.82 15.69,14.9 15.41,15.17L13.21,17.37C10.38,15.93 8.06,13.62 6.62,10.78L8.82,8.57C9.1,8.31 9.18,7.92 9.07,7.57C8.7,6.45 8.5,5.25 8.5,4A1,1 0 0,0 7.5,3H4M15,3V4.5H18.5L13,10L14,11L19.5,5.5V9H21V3H15Z" />
+</svg> 
+<span class="lang_show english">Call</span>
+<span class="lang_show rwanda">HAMAGARA</span>            
+</div></a></span>
+                
+                
+<div onclick="chat();" class="waves-effect waves-light btn black">
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" />
+</svg>   
+<span class="lang_show english">Chat</span>
+<span class="lang_show rwanda">UBUTUMWA BUGUFI</span>
+</div>
+                
+<div style="display:none;" onclick="request_decline();" class="waves-effect waves-light btn red">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" />
+</svg>
+Cancel
+</div>
+                
+     <br>        <br>     
+                
+    
               
           </div>
         </div>
       </div>
     
-    
-    
 
-      <div class="col s12" style="margin-top: -15px;">
-        <div class="card-panel grey">
-          
-        <span id="phone_button">
-        <a id="phone_button_tel" href="">
-        <div class="waves-effect waves-light btn black">   
-           <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
-    <path fill="#FFFFFF" d="M4,3A1,1 0 0,0 3,4A17,17 0 0,0 20,21A1,1 0 0,0 21,20V16.5A1,1 0 0,0 20,15.5C18.75,15.5 17.55,15.3 16.43,14.93C16.08,14.82 15.69,14.9 15.41,15.17L13.21,17.37C10.38,15.93 8.06,13.62 6.62,10.78L8.82,8.57C9.1,8.31 9.18,7.92 9.07,7.57C8.7,6.45 8.5,5.25 8.5,4A1,1 0 0,0 7.5,3H4M15,3V4.5H18.5L13,10L14,11L19.5,5.5V9H21V3H15Z" />
-</svg> 
-            
-            <span class="lang_show english">Call</span>
-<span class="lang_show rwanda">HAMAGARA</span>
-            
-            
-            
-            
-            
-            
-            </div>
-        </a>
-        </span>
-            
-<div onclick="chat();" class="waves-effect waves-light btn black">   
-           <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
-    <path fill="#FFFFFF" d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" />
-</svg> 
-    
-                <span class="lang_show english">Chat</span>
-<span class="lang_show rwanda">UBUTUMWA BUGUFI</span>
-    </div>    
-            
-        </div>
-      </div>    
-    
-<div style="display:none;" onclick="request_decline();" class="waves-effect waves-light btn red">   
-<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
-    <path fill="#FFFFFF" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" />
-</svg> Cancel Journey</div>
     
 </div>
     

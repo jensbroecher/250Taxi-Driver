@@ -153,6 +153,7 @@ html, body, #map {
     overflow: scroll;
 }
 .chat_message_client {
+    text-align: left;
     font-family: sans-serif;
     background-color: white;
     width: 70%;
@@ -167,6 +168,7 @@ html, body, #map {
     word-break: break-all;
 }
 .chat_message_driver {
+    text-align: left;
     font-family: sans-serif;
     background-color: #FFFF00;
     width: 70%;

@@ -13,6 +13,8 @@
     
 <script src="js/map.js"></script>
     
+<script src="js/farecounter.js"></script>
+    
 <script src="js/chat.js"></script>
 <script src="js/logupdate.js"></script>
 
@@ -61,7 +63,17 @@ $(document).ready(function() {
     
 // Resets
 localStorage.removeItem("request_accepted");
+localStorage.removeItem("journey_status");
 localStorage.removeItem("passenger_detailed_location_instructions");
+    
+var loggedin = localStorage.getItem('loggedin');
+    
+if (loggedin == 'Yes') {
+    id_no = localStorage.getItem("id_no");    
+    $.get( "http://250taxi.com/db/partner/taxi_login_reset.php?id_no="+id_no+"", function( data ) {
+        console.log("Requests cleared!");
+    });
+}
     
 $.get( "http://250taxi.com/db/partner/check_app_update.php?check=driver",  function( data ) {
     var currentversion = "1";
@@ -180,7 +192,24 @@ function show_language_picker() {
 </div>
     
     
-    
+ <!-- modal250 Start -->
+<div class="modal250bg" id="passenger_has_boarded_dialog" style="display:none;">
+<div class="modal250 animated fadeIn">
+
+<div class="modal250_title">Passenger boarded?</div>
+
+<div onclick="start_fare_counter();" class="modal250_cancel_button">        
+Start Journey</div>
+
+<a id="phone_button_tel_problem" href="">
+<div class="modal250_cancel_button">
+Call Passenger<br>
+(Passenger not on board!)</div>
+</a>
+
+</div>
+</div>
+<!-- modal250 End --> 
     
  
 <div id="select_language">
@@ -446,43 +475,42 @@ function show_language_picker() {
 function getLocationUpdate(){
 navigator.geolocation.getCurrentPosition(showPosition);
 }
-    
+
 function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
 
-    console.log("Driver Location");
+    console.log("Driver Location myTimer:");
+    console.log("----------");
     console.log(latitude);
-    console.log(longitude);  
+    console.log(longitude);
+    console.log("----------");
     
 var passenger_detailed_location_instructions = localStorage.getItem("passenger_detailed_location_instructions");
 
-if (passenger_detailed_location_instructions == "Yes") {
     
+// check if info from server
+if (passenger_detailed_location_instructions == "Yes") {
 $.get( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"",  function( data ) {
     
+var journey_status = document.getElementById("journey_status").innerHTML;
+localStorage.setItem("journey_status",journey_status);
+
 journeyrequest_passenger_name = data;
-    
+
 document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
-    
-
-
 var ja_client_instructions = document.getElementById("passenger_detailed_location").innerHTML;
-    
-console.log("Detailed Instructions:" + ja_client_instructions);
-
+console.log("Detailed Instructions from timer:" + ja_client_instructions);
 ja_client_instructions_length = ja_client_instructions.length;
-
 if (ja_client_instructions_length < 1) {
 document.getElementById("ja_client_instructions").innerHTML = "Not given"  
 }
 if (ja_client_instructions_length > 1) {
 document.getElementById("ja_client_instructions").innerHTML = ja_client_instructions;
 }
-    
-});
-    
+});   
 }
+    
     
 status = localStorage.getItem("status");
     
@@ -504,47 +532,37 @@ console.log("d1: "+d1+"\nd2: "+d2+"");
         
 // No passenger request - Show waiting screen
 if (d1 == "0") {
-    $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
-        $( "#view_taxi_journeyrequest" ).fadeOut( "slow", function() {
-            document.getElementById("journeyrequest_passenger_cards").className = "row";
-        });
-  });
+console.log("d1 = 0");
+//    $( "#view_taxi_waiting" ).fadeIn( "slow", function() {
+//        $( "#view_taxi_journeyrequest" ).fadeOut( "slow", function() {
+//            document.getElementById("journeyrequest_passenger_cards").className = "row";
+//        });
+//});
 }
         
 // Request cancelled
 if (d1 == "2") {
     $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancel_reason&id_no="+id_no+"",  function( data ) {
         
-    // alert(data);
+    var cancelinfofromdriver = (data.trim());
         
-    if (data == "driver_late") {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Driver was late!");
-        request_cancelled();
-    }
-    if (data == "cant_track") {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Can't track driver!");
-        request_cancelled();
-    }
-    if (data == "cant_reach") {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. Reason: Can't reach driver");
-        request_cancelled();
-    }
-    else if (data == "null") {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
-        request_cancelled();
-    }
-    else if (data == null) {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
-        request_cancelled();
-    }
-    else if (data == "") {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. No reason given.");
-        request_cancelled();
-    }
-    else {
-        localStorage.setItem("cancel_reason","Journey cancelled by passenger. "+data+"");
-        request_cancelled();
-    }
+    if (cancelinfofromdriver == "driver_late") {
+            localStorage.setItem("cancel_reason", "Journey cancelled. Driver was late!");
+            request_cancelled();
+        }
+        if (cancelinfofromdriver == "cant_track") {
+            localStorage.setItem("cancel_reason", "Journey cancelled. Can't track driver!");
+            request_cancelled();
+        }
+        if (cancelinfofromdriver == "cant_reach") {
+            localStorage.setItem("cancel_reason", "Journey cancelled. Can't reach driver!");
+            request_cancelled();
+        }
+
+        if (cancelinfofromdriver !== "driver_late" && cancelinfofromdriver !== "cant_track" && cancelinfofromdriver !== "cant_reach") {
+            localStorage.setItem("cancel_reason", "Journey cancelled. " + cancelinfofromdriver + "");
+            request_cancelled();
+        }
 
     });
 } 
@@ -553,9 +571,12 @@ function request_cancelled() {
 showindicator();
     
 var cancel_reason = localStorage.getItem("cancel_reason");
-localStorage.setItem('toast',''+cancel_reason+'');toast();
+    
+alert(cancel_reason);
 
-$.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancelled&id_no="+id_no+"",  function( data ) {
+localStorage.setItem("toast",cancel_reason);toast();
+
+$.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancelled&id_no="+id_no+"",  function( noout ) {
             
 setTimeout(function(){ 
 location.reload();
@@ -580,40 +601,44 @@ if (d1 == "1") {
     
     $.get( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"",  function( data ) {
         
+console.log("Passenger request start")
+        
+// get passenger name from server
 journeyrequest_passenger_name = data;
-
+        
+// Set passenger name in card
 document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
-        
 
-        
+// Get passenger id
 passenger_id = document.getElementById("passenger_id").innerHTML;
 // alert(passenger_id);
         
-console.log("Passenger Location");
+// get passenger coordinates
+
 passenger_gps_lat = document.getElementById("passenger_gps_lat").innerHTML;
-console.log(passenger_gps_lat);        
 passenger_gps_long = document.getElementById("passenger_gps_long").innerHTML;
-console.log(passenger_gps_long);
         
 // Calculate Distance Driver Passenger
-       
 var driver_client_distance = distance(passenger_gps_lat,passenger_gps_long,latitude,longitude);
 var driver_client_distance = parseFloat(driver_client_distance).toFixed(2);
 
-console.log("Distance: "+driver_client_distance+" km");
-        
-document.getElementById("driver_client_distance").innerHTML = driver_client_distance;
-        
-        
-        
-        
+console.log("Passenger Location:");
+console.log("----------");
+console.log(passenger_gps_lat);
+console.log(passenger_gps_long);
+console.log("Distance Driver / Passenger: "+driver_client_distance+" km");
+console.log("----------");
+
+// Show distance on card
+document.getElementById("driver_client_distance").innerHTML = driver_client_distance;    
+
+// Load google static map with coordinates from request
 $('<img src="https://maps.googleapis.com/maps/api/staticmap?center='+passenger_gps_lat+','+passenger_gps_long+'&zoom=15&size=600x600&maptype=roadmap&markers=color:blue%7Clabel:P%7C'+passenger_gps_lat+','+passenger_gps_long+'&key=AIzaSyDb1A29Jk9FtTZSiHDlfUPM9mHM42cAiRo">').load(function() {
     $("#passenger_on_map").empty();
     $(this).appendTo('#passenger_on_map');
 });
-        
 
-
+// play hey taxi sound if set
 var myAudio = document.getElementById("snd_hey_taxi");
 var play_choice = localStorage.getItem("play_choice");
 
@@ -630,10 +655,20 @@ myAudio.play();
 });
 }
 
-function myTimer() {
+function checkJourneyStatus() {
     
-getLocationUpdate();
+var journey_status = localStorage.getItem("journey_status");
+    
+ if (journey_status == "has_boarded_by_client") {
+     $( "#passenger_has_boarded_dialog" ).fadeIn( "slow", function() {
 
+    });
+  }
+}
+    
+function myTimer() {
+getLocationUpdate();
+checkJourneyStatus();
 }
 
 </script>
@@ -814,6 +849,7 @@ if (logout_confirm == true) {
         if (phone_length > 5) {
             document.getElementById("phone_button").style.display = "inline";
             $( "#phone_button_tel" ).attr("href", "tel:+"+phone+"");
+            $( "#phone_button_tel_problem" ).attr("href", "tel:+"+phone+"");
         }
         
        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=accept&passenger_id="+passenger_id+"",  function( data ) {
@@ -868,8 +904,8 @@ cordova.plugins.notification.local.schedule({
     
 <div id="view_taxi_journeyaccepted">
     
-<div id="passenger_on_map"></div>
-    
+<div onclick="refresh_map();" id="passenger_on_map"></div>
+
 <div class="row">
         <div class="col s12">
           <div class="card">

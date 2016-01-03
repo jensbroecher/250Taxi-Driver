@@ -154,7 +154,8 @@ function check_login_from_card() {
             $("#view_login").fadeOut("slow", function () {
                 $("#view_taxi_waiting").fadeIn("slow", function () {
                     myVar = setInterval(function () {
-                        myTimer()
+                        console.log("Start myTimer");
+                        myTimer();
                     }, 10000);
                     localStorage.setItem('toast', 'Login successful!');
                     toast();
@@ -261,6 +262,7 @@ function wasloggedin() {
     document.getElementById('view_start').style.display = 'none';
     document.getElementById('view_taxi_waiting').style.display = 'block';
     myVar = setInterval(function () {
-        myTimer()
+        myTimer();
+        console.log("Start myTimer");
     }, 10000);
 }

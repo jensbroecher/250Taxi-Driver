@@ -15,6 +15,8 @@
     
 <script src="js/farecounter.js"></script>
     
+<script src="js/stopwatch.js"></script>
+    
 <script src="js/chat.js"></script>
 <script src="js/logupdate.js"></script>
 
@@ -65,6 +67,7 @@ $(document).ready(function() {
 localStorage.removeItem("request_accepted");
 localStorage.removeItem("journey_status");
 localStorage.removeItem("passenger_detailed_location_instructions");
+localStorage.removeItem("passenger_has_boarded_dialog_confirmed");
     
 var loggedin = localStorage.getItem('loggedin');
     
@@ -658,12 +661,15 @@ myAudio.play();
 function checkJourneyStatus() {
     
 var journey_status = localStorage.getItem("journey_status");
+var passenger_has_boarded_dialog_confirmed = localStorage.getItem("passenger_has_boarded_dialog_confirmed");
     
+if (passenger_has_boarded_dialog_confirmed != "Yes") {
  if (journey_status == "has_boarded_by_client") {
      $( "#passenger_has_boarded_dialog" ).fadeIn( "slow", function() {
-
+         localStorage.setItem("passenger_has_boarded_dialog_confirmed", "Yes");
     });
   }
+}
 }
     
 function myTimer() {
@@ -964,10 +970,25 @@ Cancel
 </div>
     
 
+<div style="display:none;" id="journey_fare_load"></div>
     
+<div id="journey_fare_display">
+
+<div id="journey_fare_display_km">
+Driven Kilometers: <span id="journey_fare_display_km_count">0</span>
+</div>
+<div id="journey_fare_display_fare">
+Fare: <span id="journey_fare_display_fare_count">1500</span> RWF
+</div>
+<div id="journey_fare_display_destination">
+Destination: <span id="journey_fare_display_destination_target"></span>
+</div>
     
+<div id="stopwatch_elapsed_time">Elapsed Time:<div id="stopwatch"></div></div>
     
-    
+<div id="journey_route_info"><span>Suggested Route</span><br>(You can choose a different route)</div>
+
+</div>
     
     
     

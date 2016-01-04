@@ -86,9 +86,33 @@ html, body, #map {
 
 
 
-
-
-
+#journey_fare_display {
+    display: none;
+    background-color: #424242;
+    color: white;
+    font-size: 18px;
+}   
+#journey_fare_display_km {
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+#journey_fare_display_fare {
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+#journey_fare_display_destination {
+    padding: 15px;
+}
+#journey_route_info {
+    display: none;
+}
+#stopwatch_elapsed_time {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
 
 #chat_overlay {
     position: fixed;

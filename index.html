@@ -17,6 +17,8 @@
     
 <script src="js/stopwatch.js"></script>
     
+<script src="http://250taxi.com/appcontent/driver/fare_counter_map.js"></script>
+    
 <script src="js/chat.js"></script>
 <script src="js/logupdate.js"></script>
 
@@ -107,6 +109,10 @@ function onDeviceReady() {
     
 <script>
 $( document ).ready(function() {
+    
+if (localStorage.getItem("play_choice") === null) {
+    localStorage.setItem("play_choice","Yes");
+}
 
 if (localStorage.getItem("language") === null) {
     localStorage.setItem("language","lang_english");
@@ -194,8 +200,9 @@ function show_language_picker() {
 <img src="img/282.gif" width="120">
 </div>
     
+<div style="display:none;background-color:black;color:white;position:absolute;top:0px;left:0px;padding:3px;z-index:10000000;" id="corner_journey_id">Status</div>
     
- <!-- modal250 Start -->
+<!-- modal250 Start -->
 <div class="modal250bg" id="passenger_has_boarded_dialog" style="display:none;">
 <div class="modal250 animated fadeIn">
 
@@ -212,7 +219,7 @@ Call Passenger<br>
 
 </div>
 </div>
-<!-- modal250 End --> 
+<!-- modal250 End -->
     
  
 <div id="select_language">
@@ -599,7 +606,7 @@ else {
 if (d1 == "1") {
     $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
     $( "#view_taxi_journeyrequest" ).fadeIn();
-    document.getElementById("journeyrequest_passenger_cards").className = "row animated zoomIn";
+    
     });
     
     $.get( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"",  function( data ) {
@@ -664,6 +671,9 @@ var journey_status = localStorage.getItem("journey_status");
 var passenger_has_boarded_dialog_confirmed = localStorage.getItem("passenger_has_boarded_dialog_confirmed");
     
 if (passenger_has_boarded_dialog_confirmed != "Yes") {
+    
+console.log("Dialog nicht zeigen!!");
+    
  if (journey_status == "has_boarded_by_client") {
      $( "#passenger_has_boarded_dialog" ).fadeIn( "slow", function() {
          localStorage.setItem("passenger_has_boarded_dialog_confirmed", "Yes");
@@ -747,7 +757,7 @@ var logout_confirm = confirm("Are you sure you want to log out?");
 if (logout_confirm == true) {
     localStorage.setItem("status", "offline");
     localStorage.removeItem('loggedin');
-    responsiveVoice.speak("Goodbye, see you again soon!", "UK English Male");
+    responsiveVoice.speak("Good bye!", "UK English Male");
     
     setTimeout(function(){ 
                 goodbye()
@@ -764,9 +774,6 @@ if (logout_confirm == true) {
 </script>
     
 </div>
-    
-
-    
 
 <style>
     #journeyrequest_passenger_name {
@@ -774,63 +781,58 @@ if (logout_confirm == true) {
     }    
 </style>
 
-<div id="view_taxi_journeyrequest" style="display:none; margin-top: 3px;">
+<div id="view_taxi_journeyrequest" style="display:none;">
     
 <audio id="snd_hey_taxi" style="display:none;" src="http://250taxi.com/sounds/callcab.mp3"></audio>
     
-    <div id="journeyrequest_passenger_cards" class="row">
-        <div class="col s12">
-          <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title">
-                  
-                  
+<div id="journeyrequest">
+           
+<div id="journeyrequest_header">
 <span class="lang_show english">Journey Request</span>
 <span class="lang_show rwanda">SABA URUGENDO</span>
-                  
-                  
+</div>
                 
-                </span>
+<div id="journeyrequest_passenger_name"></div>
                 
-              <div id="journeyrequest_passenger_name"></div>
-                
-                <br>
-                
-                <span class="lang_show english">PICK UP LOCATION: </span>
+<span class="lang_show english">Distance: </span>
 <span class="lang_show rwanda">AHO UFATIRA UMUGENZI: </span>
                 
-                <span id="driver_client_distance"></span> km
-              
-            </div>
-            <div class="card-action">
-              <a onclick="request_accept();" href="#">
-                  
-                  <span class="lang_show english">Accept</span>
-<span class="lang_show rwanda">EMEZA</span>
-                  
-                  
-                
-                </a>
-              <a onclick="request_decline();" href="#">
-                  
-                  <span class="lang_show english">Decline</span>
-<span class="lang_show rwanda">HAKANA</span>
-                  
-                  
-                
-                </a>
-            </div>
-          </div>
-        </div>
-      </div>
+<span id="driver_client_distance"></span> km
     
-    <style>
+<div id="journeyrequest_buttons">
+<a onclick="request_accept();" href="#">
+    
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#008000" d="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+</svg>
+<span style="color:#008000;">
+<span class="lang_show english">Accept</span>
+<span class="lang_show rwanda">EMEZA</span>
+</span>
+</a>
+<a onclick="request_decline();" href="#">
+    
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FF0000" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
+</svg>
+<span style="color:#FF0000;">
+<span class="lang_show english">Decline</span>
+<span class="lang_show rwanda">HAKANA</span>
+</span>
+</a>
+</div>
+    
+</div>
+    
+<style>
         #passenger_on_map img {
             width: 100%;
         }
-    </style>
+</style>
     
 </div>
+    
+<div onclick="refresh_map();" id="passenger_on_map"></div>
     
 <script>
     function request_accept() {
@@ -867,13 +869,24 @@ if (logout_confirm == true) {
            
         });
     }
-    function request_decline() {
 
-        $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=decline&id_no="+id_no+"",  function( data ) {
-            document.getElementById('view_taxi_journeyrequest').style.display = 'none';
-            document.getElementById('view_taxi_journeyaccepted').style.display = 'none';
-            document.getElementById('view_taxi_waiting').style.display = 'block';
-        });
+function request_decline() {
+
+var request_decline = confirm("Are you sure you want to cancel this request?\n\nPlease only use this option if you can't find the passenger or if there is a problem with the app. The passenger will get notified that you declined his journey request.");
+if (request_decline == true) {
+
+$.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=decline&id_no="+id_no+"",  function( data ) {
+    document.getElementById('view_taxi_journeyrequest').style.display = 'none';
+    document.getElementById('view_taxi_journeyaccepted').style.display = 'none';
+    document.getElementById('passenger_on_map').style.display = 'none';
+    document.getElementById('view_taxi_waiting').style.display = 'block';
+});
+
+} else {
+    return;
+}
+
+        
     }
     
     
@@ -909,8 +922,6 @@ cordova.plugins.notification.local.schedule({
 
     
 <div id="view_taxi_journeyaccepted">
-    
-<div onclick="refresh_map();" id="passenger_on_map"></div>
 
 <div class="row">
         <div class="col s12">
@@ -924,14 +935,17 @@ cordova.plugins.notification.local.schedule({
 
             </div>
               
-      
-                
-              <div onclick="native_navigation();" class="waves-effect waves-light btn black">   
+<div onclick="start_fare_counter();" style="background-color:green;" class="waves-effect waves-light btn">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
-    <path fill="#FFFFFF" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-</svg> Navigate</div>
-              <br><br>
-                
+    <path fill="#FFFFFF" d="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" />
+</svg> Picked up</div>
+              
+<div style="background-color:red;" onclick="request_decline();" class="waves-effect waves-light btn">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
+</svg> </div>
+              
+<br><br>
                 
 <span id="phone_button"><a id="phone_button_tel" href=""><div class="waves-effect waves-light btn black">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
@@ -956,8 +970,15 @@ cordova.plugins.notification.local.schedule({
 </svg>
 Cancel
 </div>
-                
-     <br>        <br>     
+
+<br><br>     
+              
+<div onclick="native_navigation();" class="waves-effect waves-light btn black">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+</svg> Navigation</div>
+              
+<br><br>   
                 
     
               
@@ -987,6 +1008,11 @@ Destination: <span id="journey_fare_display_destination_target"></span>
 <div id="stopwatch_elapsed_time">Elapsed Time:<div id="stopwatch"></div></div>
     
 <div id="journey_route_info"><span>Suggested Route</span><br>(You can choose a different route)</div>
+    
+<div id="end_journey" onclick="end_journey();" class="waves-effect waves-light btn">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M20,19C20,21.21 16.42,23 12,23C7.58,23 4,21.21 4,19C4,17.71 5.22,16.56 7.11,15.83L7.75,16.74C6.67,17.19 6,17.81 6,18.5C6,19.88 8.69,21 12,21C15.31,21 18,19.88 18,18.5C18,17.81 17.33,17.19 16.25,16.74L16.89,15.83C18.78,16.56 20,17.71 20,19Z" />
+</svg> Destination Reached</div>
 
 </div>
     
@@ -1201,6 +1227,8 @@ body {
 <div class="waves-effect waves-light" id="chat_message_send_button"></div>
 
 </div>
+    
+<div id="view_end"></div>
 
 </body>
 </html>

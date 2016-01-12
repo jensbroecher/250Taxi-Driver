@@ -74,7 +74,9 @@ html, body, #map {
 }
 
 
+#view_end {
 
+}
 
 #view_login {
     display: none;
@@ -84,7 +86,32 @@ html, body, #map {
     padding-top: 3px;
 }
 
-
+#view_taxi_journeyrequest {
+}
+#journeyrequest {
+    text-transform: uppercase;
+    background-color: white;
+    font-size: 16px;
+}
+#journeyrequest_buttons {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#journeyrequest_buttons a {
+    text-transform: uppercase;
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#journeyrequest_header {
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 #journey_fare_display {
     display: none;
@@ -112,6 +139,15 @@ html, body, #map {
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 15px;
+}
+#end_journey {
+    position: absolute;
+    bottom: 60px;
+    width: 80%;
+    position: block;
+    left: 10%;
+    background-color: green;
+    font-size: 15px;
 }
 
 #chat_overlay {

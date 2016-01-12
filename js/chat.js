@@ -32,7 +32,15 @@ function loadchat() {
         // console.log(chat_new_from_client);
 
         if (chat_new_from_client == "1") {
+            
+            chat();
+            
             console.log("New chat message from client");
+            
+            $.get( "http://250taxi.com/db/journey/chat.php?task=clear_client&driverid=" + driverid + "&clientid=" + clientid + "",  function( data ) {
+             var chataudio = new Audio('sound/Bell_but-xk-106_hifi.mp3');chataudio.play();   
+            });
+            
             // localStorage.setItem('toast','New Chat Message');toast();
             // chat();
         }
@@ -72,7 +80,7 @@ if (/^\s*$/.test(chat_message)) {
             clientid = localStorage.getItem("clientid");
 
             $.get("http://250taxi.com/db/journey/chat.php?task=send_message&driverid=" + driverid + "&clientid=" + clientid + "&message=" + chat_message + "&origin=driver", function (data) {
-                var chataudio = new Audio('sound/bubbley-xrikazen-7430_hifi.mp3');chataudio.play();
+                var chataudio = new Audio('sound/Bell_but-xk-105_hifi.mp3');chataudio.play();
             });
 
             document.getElementById("chat_message_input").value = "";

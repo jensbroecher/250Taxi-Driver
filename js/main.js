@@ -159,7 +159,7 @@ function check_login_from_card() {
                     }, 10000);
                     localStorage.setItem('toast', 'Login successful!');
                     toast();
-                    responsiveVoice.speak("Welcome to twofiftytaxi!", "UK English Male");
+                    responsiveVoice.speak("Welcome!", "UK English Male");
                 });
             });
 
@@ -211,7 +211,7 @@ function check_login() {
 
                         if (data == "pin_correct") {
 
-                            responsiveVoice.speak("PIN Correct! Welcome to twofiftytaxi!", "UK English Male");
+                            responsiveVoice.speak("PIN Correct!", "UK English Male");
 
                             localStorage.setItem('toast', 'Login successful!');
                             toast();

@@ -24,7 +24,7 @@ var clientid = localStorage.getItem("clientid");
         if (journeyid == "0") {
             console.log("Journey id nicht gefunden. Driver hat journey gestartet");
             
-            // Passenger has boarded dialog nicht einblenden
+            // Passenger has boarded dialog nicht einblenden (Ist jetzt toast)
             localStorage.setItem("passenger_has_boarded_dialog_confirmed", "Yes");
             
             console.log("Journey ID: " + journeyid);

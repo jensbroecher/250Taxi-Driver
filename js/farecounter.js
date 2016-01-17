@@ -1,5 +1,7 @@
 function start_fare_counter() {
     
+show_fare_count();
+    
 fare_counter_map_start();
     
 clearInterval(chat_updater);

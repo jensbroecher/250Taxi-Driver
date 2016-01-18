@@ -497,6 +497,7 @@ navigator.geolocation.getCurrentPosition(showPosition);
 function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
+    accuracy = position.coords.accuracy;
 
     console.log("Driver Location myTimer:");
     console.log("----------");
@@ -544,7 +545,7 @@ if (loggedin == 'Yes') {
     id_no = localStorage.getItem("id_no");
 }
 
-    $.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status="+status+"&latitude="+latitude+"&longitude="+longitude+"", function( data ) {
+    $.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status="+status+"&latitude="+latitude+"&longitude="+longitude+"&accuracy="+accuracy+"", function( data ) {
         
 // console.log(data);
 

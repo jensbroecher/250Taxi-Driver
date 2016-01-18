@@ -66,6 +66,8 @@ screen.lockOrientation('portrait');
 
 $(document).ready(function() {
     
+getLocationUpdate();
+    
 // Resets
 localStorage.removeItem("request_accepted");
 localStorage.removeItem("journey_status");
@@ -414,9 +416,14 @@ Call Passenger<br>
     
     <div class="infobox">
         
-<span class="lang_show english">The app has to stay open for best performance</span>
-<span class="lang_show rwanda">IYI APILIKASIYO IGOMBA GUHORA IFUNGUYE KUGIRA NGO IKORE NEZA</span>
+<span class="lang_show english">The app has to stay open for best performance.</span>
+<span class="lang_show rwanda">IYI APILIKASIYO IGOMBA GUHORA IFUNGUYE KUGIRA NGO IKORE NEZA.</span>
         
+<div id="accuracy_standby">
+<span class="lang_show english">Accuracy: </span>
+<span class="lang_show rwanda">Accuracy: </span>
+<span id="accuracy_standby_meters"></span>m. Update: <span id="last_standby_server_update"></span>
+</div>
     
     </div>
     
@@ -495,7 +502,13 @@ function showPosition(position) {
     console.log("----------");
     console.log(latitude);
     console.log(longitude);
+    console.log('Accuracy: ' + position.coords.accuracy + 'm');
     console.log("----------");
+    
+document.getElementById("accuracy_standby_meters").innerHTML = position.coords.accuracy;
+    
+var standby_server_update_time = new Date().toLocaleTimeString();
+document.getElementById("last_standby_server_update").innerHTML = standby_server_update_time;
     
 var passenger_detailed_location_instructions = localStorage.getItem("passenger_detailed_location_instructions");
 

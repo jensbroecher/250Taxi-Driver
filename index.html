@@ -35,6 +35,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
 <script type="text/javascript">
+    
+function relocateme() {
+    
+    var relocateme_options = {
+    enableHighAccuracy: true,
+    timeout: 2000,
+    maximumAge: 0
+    };
+    
+    navigator.geolocation.getCurrentPosition(relocateme_success, relocateme_error, relocateme_options);
+    
+    function relocateme_error(err) {
+    localStorage.setItem("toast","Error: "+err.message+"");toast();
+    };
+    
+    function relocateme_success(pos) {
+    
+    var crd = pos.coords;
+        
+    localStorage.setItem("toast","Location reloaded. Accuracy: "+crd.accuracy+"m.");toast();
+
+    };
+    
+}
 
 function distance(lat1, lon1, lat2, lon2) {
   var p = 0.017453292519943295;    // Math.PI / 180
@@ -415,8 +439,10 @@ Call Passenger<br>
 <div class="infobox">
         
 <img style="width: 40px; height: 40px; padding: 5px; float: left;" src="img/information-outline.svg">
+    
+<div id="relocateme" onclick="relocateme();"></div>
         
-<span class="lang_show english">The app has to stay open for best performance.</span>
+<span class="lang_show english">App has to stay open for best performance.</span>
 <span class="lang_show rwanda">IYI APILIKASIYO IGOMBA GUHORA IFUNGUYE KUGIRA NGO IKORE NEZA.</span>
         
 <div id="accuracy_standby">

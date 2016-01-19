@@ -161,7 +161,17 @@ html, body, #map {
     left: 0px;
     z-index: -1;
 }
-
+#relocateme {
+    background-image: url(../img/crosshairs-gps.svg);
+    background-size: 24px 24px;
+    background-position: center center;
+    height: 34px;
+    width: 34px;
+    margin-left: 5px;
+    background-repeat: no-repeat;
+    float: right;
+    background-color: #FCD706;
+}
 
 
 

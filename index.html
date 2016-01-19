@@ -357,15 +357,13 @@ Call Passenger<br>
     color: white;
 }
 .infobox {
-    background-image: url(img/information-outline.svg);
-    background-repeat: no-repeat;
-    background-size: auto 80%;
-    background-position: 3% center;
-    padding-left: 60px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 5px;
     text-align: left;
     background-color: white;
+}
+.infobox svg {
+    height: 40px;
+    padding: 5px;
 }
 #loadingindicator {
     filter: invert(100%);
@@ -414,7 +412,9 @@ Call Passenger<br>
     <div id="behind_radar_offline"></div>
     </div>
     
-    <div class="infobox">
+<div class="infobox">
+        
+<img style="width: 40px; height: 40px; padding: 5px; float: left;" src="img/information-outline.svg">
         
 <span class="lang_show english">The app has to stay open for best performance.</span>
 <span class="lang_show rwanda">IYI APILIKASIYO IGOMBA GUHORA IFUNGUYE KUGIRA NGO IKORE NEZA.</span>
@@ -425,7 +425,7 @@ Call Passenger<br>
 <span id="accuracy_standby_meters"></span>m. Update: <span id="last_standby_server_update"></span>
 </div>
     
-    </div>
+</div>
     
 
 
@@ -506,7 +506,8 @@ function showPosition(position) {
     console.log('Accuracy: ' + position.coords.accuracy + 'm');
     console.log("----------");
     
-document.getElementById("accuracy_standby_meters").innerHTML = position.coords.accuracy;
+accuracy = accuracy.toPrecision(3);
+document.getElementById("accuracy_standby_meters").innerHTML = accuracy;
     
 var standby_server_update_time = new Date().toLocaleTimeString();
 document.getElementById("last_standby_server_update").innerHTML = standby_server_update_time;

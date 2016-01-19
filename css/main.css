@@ -149,6 +149,21 @@ html, body, #map {
     background-color: green;
     font-size: 15px;
 }
+#journey_route_map {
+    position: absolute;
+    background-image: url(../img/splash_day.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center 210px;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+
+
 
 #chat_overlay {
     position: fixed;

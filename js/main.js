@@ -154,9 +154,9 @@ function check_login_from_card() {
             $("#view_login").fadeOut("slow", function () {
                 $("#view_taxi_waiting").fadeIn("slow", function () {
                     myVar = setInterval(function () {
-                        console.log("Start myTimer");
+                        // console.log("Start myTimer");
                         myTimer();
-                    }, 10000);
+                    }, 6000);
                     localStorage.setItem('toast', 'Login successful!');
                     toast();
                     responsiveVoice.speak("Welcome!", "UK English Male");

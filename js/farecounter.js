@@ -68,7 +68,7 @@ function record_waypoints() {
     var driverid = localStorage.getItem("driverid");
     var journeyid = localStorage.getItem("journeyid");
 
-    $.get("http://250taxi.com/db/journey/record_waypoints.php?driverid=" + driverid + "&journeyid=" + journeyid + "&lat=" + latitude + "&long=" + longitude + "", function (journey_id_response) {
+    $.get("http://250taxi.com/db/journey/record_waypoints.php?driverid=" + driverid + "&journeyid=" + journeyid + "&lat=" + latitude + "&long=" + longitude + "&accuracy=" +accuracy+ "", function (journey_id_response) {
         journey_fare_load();
     });
 

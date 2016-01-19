@@ -170,7 +170,9 @@ html, body, #map {
     margin-left: 5px;
     background-repeat: no-repeat;
     float: right;
-    background-color: #FCD706;
+    background-color: greenyellow;
+    position: absolute;
+    right: 0px;
 }
 
 

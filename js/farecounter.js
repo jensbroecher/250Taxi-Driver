@@ -48,7 +48,7 @@ $.get( "http://250taxi.com/db/journey/journey_mode.php?task=taxi_boarded&passeng
             console.log("Journey id gefunden. Client hat journey id erzeugt");
             
             localStorage.setItem("journeyid", journeyid);
-            waypoint_recorder = setInterval(record_waypoints, 20000);
+            waypoint_recorder = setInterval(record_waypoints, 6000);
             record_waypoints();
             show_fare_count();
             $.get("http://250taxi.com/db/journey/journey_mode.php?task=start_waypoint_recording&passenger_id=" + clientid + "", function ( data) {

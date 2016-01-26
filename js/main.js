@@ -194,12 +194,21 @@ function check_login() {
             function check_login_prompt() {
 
                 // var pin_length = pin.length;
+				
+				// lang checker
+var language = localStorage.getItem("language");
+if (language == "lang_kinyarwanda") {
+	login_from_qr_pin_text = "Andika umubare w’ibanga:"
+}
+if (language == "lang_english") {
+	login_from_qr_pin_text = "Please enter your PIN:"
+}		
 
-                var login_from_qr_pin = prompt("Amakuru, " + data + ".\nPlease enter your PIN:", "");
+                var login_from_qr_pin = prompt("Amakuru, " + data + ".\n"+login_from_qr_pin_text+"", "");
                 pin = login_from_qr_pin;
 
                 if (login_from_qr_pin === "") {
-                    alert('Please enter your PIN!');
+                    alert(login_from_qr_pin_text);
                     check_login();
                 } else if (login_from_qr_pin) {
 
@@ -212,9 +221,6 @@ function check_login() {
                         if (data == "pin_correct") {
 
                             responsiveVoice.speak("PIN Correct!", "UK English Male");
-
-                            localStorage.setItem('toast', 'Login successful!');
-                            toast();
 
                             $.get("http://250taxi.com/db/partner/taxi_id_get_driverid.php?id_no=" + id_no + "", function (driverid) {
                                 localStorage.setItem("driverid", driverid);

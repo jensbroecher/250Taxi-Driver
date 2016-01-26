@@ -115,7 +115,7 @@ html, body, #map {
 
 #journey_fare_display {
     display: none;
-    background-color: #424242;
+    background-color: rgba(0,0,0,0.5);
     color: white;
     font-size: 18px;
 }   
@@ -151,10 +151,11 @@ html, body, #map {
 }
 #journey_route_map {
     position: absolute;
-    background-image: url(../img/splash_day.jpg);
+    background-image: url(../img/journeymode.jpg);
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center 210px;
+    background-size: contain;
+    background-position: center top;
+	background-color: black;
     height: 100%;
     width: 100%;
     top: 0px;

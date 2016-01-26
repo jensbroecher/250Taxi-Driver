@@ -104,10 +104,13 @@ function journey_fare_load() {
 function end_journey() {
 
     console.log("End Journey");
+
     var stopwatchtime = document.getElementById("stopwatch").innerHTML;
     console.log("stopwatchtime: "+stopwatchtime+"");
+
     var kmdriven = document.getElementById("journey_fare_display_km_count").innerHTML;
     console.log("kmdriven: "+kmdriven+"");
+
     var fare = document.getElementById("journey_fare_display_fare_count").innerHTML;
     console.log("fare: "+fare+"");
 

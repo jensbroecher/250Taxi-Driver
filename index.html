@@ -53,8 +53,17 @@ function relocateme() {
     function relocateme_success(pos) {
     
     var crd = pos.coords;
+		
+// lang checker
+var language = localStorage.getItem("language");
+if (language == "lang_kinyarwanda") {
+localStorage.setItem("toast","Gihwitse: "+crd.accuracy+"m.");toast();
+}
+if (language == "lang_english") {
+localStorage.setItem("toast","Accuracy: "+crd.accuracy+"m.");toast();
+}
         
-    localStorage.setItem("toast","Location reloaded. Accuracy: "+crd.accuracy+"m.");toast();
+    
 
     };
     
@@ -260,9 +269,9 @@ Call Passenger<br>
 </div>
 <div class="input-field col s8">
     <select id="language_type" required="" aria-required="true">
-        <option value="" disabled selected>Language</option>
-        <option value="lang_english">English</option>
-        <option value="lang_kinyarwanda">Kinyarwanda</option>
+        <option value="" disabled selected>LANGUAGE</option>
+        <option value="lang_english">ENGLISH</option>
+        <option value="lang_kinyarwanda">KINYARWANDA</option>
     </select>
 </div>
 </div>
@@ -341,19 +350,29 @@ Call Passenger<br>
           
 <div class="input-field col s12">
     <select id="partner_type" required="" aria-required="true">
-      <option value="" disabled selected>Choose partner type</option>
-      <option value="TX_">Taxi</option>
-      <option value="CR_">Courier</option>
-      <option value="MO_">Moto</option>
+      <option value="" disabled selected>PARTNER TYPE</option>
+      <option value="TX_">TAXI</option>
+      <option value="CR_">COURIER</option>
+      <option value="MO_">MOTO</option>
     </select>
 </div>
             
 <div class="input-field col s12">
           <input id="id_no" type="text" required="" aria-required="true" class="validate">
-          <label for="id_no">ID Number / Username</label>
+          <label for="id_no">
+			  
+	<span class="lang_show english">User ID</span>
+    <span class="lang_show rwanda">Ikimuranga</span>
+			  
+			  </label>
 </div>
     
-<a id="login_btn_go" class="waves-effect waves-light btn taxi250">Login</a>
+<a id="login_btn_go" class="waves-effect waves-light btn taxi250">
+	
+	<span class="lang_show english">Login</span>
+    <span class="lang_show rwanda">Injira</span>
+	
+	</a>
             
         </div>
       </div>
@@ -365,7 +384,12 @@ Call Passenger<br>
       <div class="col s12">
         <div class="card-panel white">
         <img id="scan_qr" src="img/scan_qr.png">
-          <a id="login_btn_qr" class="waves-effect waves-light btn taxi250" onclick="scancode();">Scan QR-Code</a>  
+          <a id="login_btn_qr" class="waves-effect waves-light btn taxi250" onclick="scancode();"> 
+			  
+	<span class="lang_show english">Scan ID</span>
+    <span class="lang_show rwanda">Scan ID</span>
+			  
+			  </a>  
         </div>
       </div>
     </div>
@@ -441,13 +465,13 @@ Call Passenger<br>
         
 <img style="width: 40px; height: 40px; padding: 5px; float: left;" src="img/information-outline.svg">
         
-<span class="lang_show english">App has to stay open for best performance.</span>
+<span class="lang_show english">KEEP APP OPEN FOR BEST PERFORMANCE.</span>
 <span class="lang_show rwanda">IYI APILIKASIYO IGOMBA GUHORA IFUNGUYE KUGIRA NGO IKORE NEZA.</span>
         
 <div id="accuracy_standby">
-<span class="lang_show english">Accuracy: </span>
-<span class="lang_show rwanda">Accuracy: </span>
-<span id="accuracy_standby_meters"></span>m. Update: <span id="last_standby_server_update"></span>
+<span class="lang_show english">ACCURACY: </span>
+<span class="lang_show rwanda">GIHWITSE: </span>
+<span id="accuracy_standby_meters"></span>m. <span id="last_standby_server_update"></span>
 </div>
     
 </div>
@@ -523,6 +547,8 @@ function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
     accuracy = position.coords.accuracy;
+	speed = position.coords.speed;
+	altitude = position.coords.altitude;
 
     console.log("Driver Location myTimer:");
     console.log("----------");
@@ -556,7 +582,16 @@ var ja_client_instructions = document.getElementById("passenger_detailed_locatio
 console.log("Detailed Instructions from timer:" + ja_client_instructions);
 ja_client_instructions_length = ja_client_instructions.length;
 if (ja_client_instructions_length < 1) {
-document.getElementById("ja_client_instructions").innerHTML = "Not given"  
+
+// lang checker
+var language = localStorage.getItem("language");
+if (language == "lang_kinyarwanda") {
+document.getElementById("ja_client_instructions").innerHTML = "Ntabyatanzwe";  
+}
+if (language == "lang_english") {
+document.getElementById("ja_client_instructions").innerHTML = "Not given";
+}
+
 }
 if (ja_client_instructions_length > 1) {
 document.getElementById("ja_client_instructions").innerHTML = ja_client_instructions;
@@ -573,7 +608,7 @@ if (loggedin == 'Yes') {
     id_no = localStorage.getItem("id_no");
 }
 
-    $.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status="+status+"&latitude="+latitude+"&longitude="+longitude+"&accuracy="+accuracy+"", function( data ) {
+    $.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status="+status+"&latitude="+latitude+"&longitude="+longitude+"&accuracy="+accuracy+"&speed="+speed+"&altitude="+altitude+"", function( data ) {
         
 // console.log(data);
 
@@ -720,8 +755,16 @@ console.log("Dialog nicht zeigen!!");
  if (journey_status == "has_boarded_by_client") {
      
         console.log('Boarding confirmed.');
-     
-        localStorage.setItem('toast','Boarding confirmed.');toast();
+	 
+// lang checker
+var language = localStorage.getItem("language");
+if (language == "lang_kinyarwanda") {
+localStorage.setItem('toast','Gufata umugenzi byemejwe.');toast();
+}
+if (language == "lang_english") {
+localStorage.setItem('toast','Boarding confirmed.');toast();
+}
+
         localStorage.setItem("passenger_has_boarded_dialog_confirmed", "Yes");
 
   }
@@ -773,7 +816,12 @@ checkJourneyStatus();
 
 <br><br>
     <input type="checkbox" class="filled-in" id="play_choice_checkbox" checked="checked" />
-    <label for="play_choice_checkbox">Play <i>Hey Taxi!</i></label>
+    <label for="play_choice_checkbox">
+		
+	<span class="lang_show english">Play <i>Hey Taxi</i></span>
+	<span class="lang_show rwanda">Kina <i>Hey Taxi</i></span>		  
+		
+	</label>
               
           </span>
         </div>
@@ -799,7 +847,16 @@ function logout_confirm() {
     
 showindicator();
 
-var logout_confirm = confirm("Are you sure you want to log out?");
+// lang checker
+var language = localStorage.getItem("language");
+if (language == "lang_kinyarwanda") {
+var logout_confirm_text = "Urumva ushaka gusohoka?";
+}
+if (language == "lang_english") {
+var logout_confirm_text = "Are you sure you want to log out?";
+}
+	
+var logout_confirm = confirm(logout_confirm_text);
 if (logout_confirm == true) {
     localStorage.setItem("status", "offline");
     localStorage.removeItem('loggedin');
@@ -917,8 +974,17 @@ if (logout_confirm == true) {
     }
 
 function request_decline() {
+	
+// lang checker
+var language = localStorage.getItem("language");
+if (language == "lang_kinyarwanda") {
+var request_decline_text = "Mwashishoje neza mushaka guhakana ubu busabe?\n\nNyabuneka mukore ibi aruko mutari kubona uwo mugenzi cyangwa habaye harikibazo mugukoresha iyi apulikasiyo. Umugenzi arahita amenyeshwa ko mwanze ubusabe bwe bwo gutwarwa.";
+}
+if (language == "lang_english") {
+var request_decline_text = "Are you sure you want to cancel this request?\n\nPlease only use this option if you can't find the passenger or if there is a problem with the app. The passenger will get notified that you declined his journey request.";
+}
 
-var request_decline = confirm("Are you sure you want to cancel this request?\n\nPlease only use this option if you can't find the passenger or if there is a problem with the app. The passenger will get notified that you declined his journey request.");
+var request_decline = confirm(request_decline_text);
 if (request_decline == true) {
 
 $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=decline&id_no="+id_no+"",  function( data ) {
@@ -976,15 +1042,35 @@ cordova.plugins.notification.local.schedule({
 
         <span style="display:none;">Client Location: <span id="ja_client_location">Loading...</span></span>
                 
-        Additional Instructions: <span id="ja_client_instructions">Not given</span><br>
-        <span>Client Destination: <span id="ja_client_destination">Loading...</span></span>
+<span class="lang_show english">ADDITIONAL INSTRUCTIONS:</span>
+<span class="lang_show rwanda">IBISOBANURO BIHAGIJE KU HANTU AGIYE:</span>
+				
+<span id="ja_client_instructions">			 
+			 
+<span class="lang_show english">Not given</span>
+<span class="lang_show rwanda">Ntabyatanzwe</span>
+			 
+</span>		
+				
+			<br>
+        <span>
+			
+<span class="lang_show english">DESTINATION:</span>
+<span class="lang_show rwanda">AHO UMUKIRIYA AGIYE:</span>
+			
+			 <span id="ja_client_destination">Loading...</span></span>
 
             </div>
               
 <div onclick="start_fare_counter();" style="background-color:green;" class="waves-effect waves-light btn">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" />
-</svg> Picked up</div>
+</svg> 
+	
+<span class="lang_show english">Picked up</span>
+<span class="lang_show rwanda">yafashwe</span>
+	
+	</div>
               
 <div style="background-color:red;" onclick="request_decline();" class="waves-effect waves-light btn">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
@@ -1022,7 +1108,15 @@ Cancel
 <div onclick="native_navigation();" class="waves-effect waves-light btn black">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-</svg> Navigation</div>
+</svg> 
+	
+<span class="lang_show english">Navigation</span>
+<span class="lang_show rwanda">Shakisha</span>
+	
+	
+			  
+			  
+			 </div>
               
 <br><br>   
                 
@@ -1042,16 +1136,33 @@ Cancel
 <div id="journey_fare_display">
 
 <div id="journey_fare_display_km">
-Driven Kilometers: <span id="journey_fare_display_km_count">0</span>
+
+
+<span class="lang_show english">Driven Kilometers (Estimate):</span>
+<span class="lang_show rwanda">Ibirometero byakoreshejwe (Gereranya):</span>
+	
+<span id="journey_fare_display_km_count">0</span>km
 </div>
-<div id="journey_fare_display_fare">
+<div style="display:none;" id="journey_fare_display_fare">
 Fare: <span id="journey_fare_display_fare_count">1500</span> RWF
 </div>
 <div id="journey_fare_display_destination">
-Destination: <span id="journey_fare_display_destination_target"></span>
+
+	
+<span class="lang_show english">Destination:</span>
+<span class="lang_show rwanda">Aho agiye:</span>	
+ 
+<span id="journey_fare_display_destination_target"></span>
 </div>
     
-<div id="stopwatch_elapsed_time">Elapsed Time:<div id="stopwatch"></div></div>
+<div id="stopwatch_elapsed_time">
+	
+<span class="lang_show english">Elapsed time:</span>
+<span class="lang_show rwanda">Igihe cyakoreshejwe:</span>	
+
+	
+	
+	<div id="stopwatch"></div></div>
     
 <div id="journey_route_info"></div>
     
@@ -1060,7 +1171,12 @@ Destination: <span id="journey_fare_display_destination_target"></span>
 <div id="end_journey" onclick="end_journey();" class="waves-effect waves-light btn">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M20,19C20,21.21 16.42,23 12,23C7.58,23 4,21.21 4,19C4,17.71 5.22,16.56 7.11,15.83L7.75,16.74C6.67,17.19 6,17.81 6,18.5C6,19.88 8.69,21 12,21C15.31,21 18,19.88 18,18.5C18,17.81 17.33,17.19 16.25,16.74L16.89,15.83C18.78,16.56 20,17.71 20,19Z" />
-</svg> End Journey</div>
+</svg> 
+	
+<span class="lang_show english">End Journey</span>
+<span class="lang_show rwanda">Yagezeyo</span>	
+	
+</div>
 
 </div>
     

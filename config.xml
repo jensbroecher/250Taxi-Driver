@@ -19,6 +19,8 @@
 	
 	<icon src="icon.png" />
 		
+	<plugin name="de.appplant.cordova.plugin.background-mode" spec="0.5.0" source="pgb" />
+		
 	<!-- Core plugins -->
     <gap:plugin name="cordova-plugin-device" source="npm" />
     <gap:plugin name="cordova-plugin-device-orientation" source="npm" />

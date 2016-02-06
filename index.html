@@ -688,7 +688,13 @@ else {
 if (d1 == "1") {
     $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
     $( "#view_taxi_journeyrequest" ).fadeIn();
-    
+
+navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+if (navigator.vibrate) {
+	navigator.vibrate([500, 300, 500, 300, 500, 300, 500, 300]);
+}
+		
     });
     
     $.get( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"",  function( data ) {

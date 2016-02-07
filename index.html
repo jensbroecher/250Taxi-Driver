@@ -354,10 +354,8 @@ Call Passenger<br>
           
 <div class="input-field col s12">
     <select id="partner_type" required="" aria-required="true">
-      <option value="" disabled selected>PARTNER TYPE</option>
-      <option value="TX_">TAXI</option>
-      <option value="CR_">COURIER</option>
-      <option value="MO_">MOTO</option>
+      <option value="" disabled>PARTNER TYPE</option>
+      <option selected value="TX_">TAXI</option>
     </select>
 </div>
             
@@ -692,10 +690,10 @@ if (d1 == "1") {
 navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
 if (navigator.vibrate) {
-	navigator.vibrate([500, 300, 500, 300, 500, 300, 500, 300]);
+	navigator.vibrate([500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300]);
 }
 		
-    });
+    }); 
     
     $.get( "http://250taxi.com/db/partner/taxi_comlink_passenger_details.php?task=getpassengername&id_no="+id_no+"",  function( data ) {
         
@@ -1388,7 +1386,7 @@ body {
 <div id="chat_overlay">
    
 <div id="chat_overlay_close" onclick="close_chat();">
-<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+<svg style="width:36px;height:36px" viewBox="0 0 24 24">
     <path fill="#FFFFFF" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
 </svg>
 </div>

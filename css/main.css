@@ -191,7 +191,7 @@ html, body, #map {
 #chat_overlay_close {
     position: absolute;
     width: 100%;
-    height: 32px;
+    height: 42px;
     margin-top: -30px;
     text-align: right;
     padding-top: 4px;

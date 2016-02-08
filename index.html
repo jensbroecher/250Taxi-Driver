@@ -581,6 +581,7 @@ journeyrequest_passenger_name = data;
 
 document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
 var ja_client_instructions = document.getElementById("passenger_detailed_location").innerHTML;
+
 console.log("Detailed Instructions from timer:" + ja_client_instructions);
 ja_client_instructions_length = ja_client_instructions.length;
 if (ja_client_instructions_length < 1) {
@@ -686,6 +687,16 @@ else {
 if (d1 == "1") {
     $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
     $( "#view_taxi_journeyrequest" ).fadeIn();
+		
+document.getElementById("passenger_on_map").style.display = "block";		
+		
+// Show detailed instructions during request (Drivers suggestion)
+		
+document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
+var ja_client_instructions = document.getElementById("passenger_detailed_location").innerHTML;
+
+document.getElementById("ja_client_instructions_request").innerHTML = ja_client_instructions;
+		
 
 navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
@@ -909,6 +920,8 @@ if (logout_confirm == true) {
 <span class="lang_show rwanda">AHO UFATIRA UMUGENZI: </span>
                 
 <span id="driver_client_distance"></span> km
+	
+<div id="ja_client_instructions_request">Loading Location Details</div>
     
 <div id="journeyrequest_buttons">
 <a onclick="request_accept();" href="#">
@@ -1066,7 +1079,12 @@ cordova.plugins.notification.local.schedule({
 <span class="lang_show english">DESTINATION:</span>
 <span class="lang_show rwanda">AHO UMUKIRIYA AGIYE:</span>
 			
-			 <span id="ja_client_destination">Loading...</span></span>
+			 <span id="ja_client_destination">Loading...</span>
+				
+				
+			
+				
+				</span>
 
             </div>
               

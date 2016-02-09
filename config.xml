@@ -42,6 +42,8 @@
         
     <gap:plugin name="cordova-plugin-barcodescanner" source="npm" />
 		
+	<gap:plugin name="de.appplant.cordova.plugin.background-mode" version="0.6.3" />
+		
 	<gap:plugin name='org.crosswalk.engine' version='1.3.0' source='pgb' />
 
     <gap:plugin name="onesignal-cordova-plugin-pgb-compat" source="npm" />

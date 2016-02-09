@@ -37,7 +37,7 @@
 <script type="text/javascript">
 	
 function runinbackground() {
-	window.plugin.backgroundMode.enable();
+	// window.plugin.backgroundMode.enable();
 }
     
 function relocateme() {
@@ -719,7 +719,7 @@ journeyrequest_passenger_name = data;
 cordova.plugins.notification.local.schedule({
     title: "Journey Request",
     message: "Please answer the request!",
-	ongoing: true
+	ongoing: false
 });
         
 // Set passenger name in card

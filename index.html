@@ -686,6 +686,12 @@ if (request_accepted == "Yes") {
 }
 else {
 if (d1 == "1") {
+	
+cordova.plugins.notification.local.schedule({
+    title: "Journey Request",
+    message: ""+journeyrequest_passenger_name+""
+});
+	
     $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
     $( "#view_taxi_journeyrequest" ).fadeIn();
 		

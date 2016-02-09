@@ -687,11 +687,6 @@ if (request_accepted == "Yes") {
 else {
 if (d1 == "1") {
 	
-cordova.plugins.notification.local.schedule({
-    title: "Journey Request",
-    message: ""+journeyrequest_passenger_name+""
-});
-	
     $( "#view_taxi_waiting" ).fadeOut( "slow", function() {
     $( "#view_taxi_journeyrequest" ).fadeIn();
 		
@@ -703,13 +698,9 @@ document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequ
 var ja_client_instructions = document.getElementById("passenger_detailed_location").innerHTML;
 
 document.getElementById("ja_client_instructions_request").innerHTML = ja_client_instructions;
-		
 
-navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+navigator.vibrate([500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300]);
 
-if (navigator.vibrate) {
-	navigator.vibrate([500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300, 500, 300]);
-}
 		
     }); 
     
@@ -719,6 +710,12 @@ console.log("Passenger request start")
         
 // get passenger name from server
 journeyrequest_passenger_name = data;
+		
+cordova.plugins.notification.local.schedule({
+    title: "Journey Request",
+    message: ""+journeyrequest_passenger_name+"",
+	ongoing: true
+});
         
 // Set passenger name in card
 document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
@@ -976,6 +973,10 @@ if (logout_confirm == true) {
        var passenger_id = document.getElementById("passenger_id").innerHTML;
     
         localStorage.setItem("request_accepted","Yes");
+		
+cordova.plugins.notification.local.clearAll(function() {
+    // alert("done");
+}, this);
         
         document.getElementById("ja_client_destination").innerHTML = document.getElementById("passenger_destination").innerHTML;
         

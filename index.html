@@ -634,6 +634,11 @@ console.log("d1 = 0");
         
 // Request cancelled
 if (d1 == "2") {
+	
+	cordova.plugins.notification.local.clearAll(function() {
+    // alert("done");
+}, this);
+	
     $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=cancel_reason&id_no="+id_no+"",  function( data ) {
         
     var cancelinfofromdriver = (data.trim());
@@ -713,7 +718,7 @@ journeyrequest_passenger_name = data;
 		
 cordova.plugins.notification.local.schedule({
     title: "Journey Request",
-    message: ""+journeyrequest_passenger_name+"",
+    message: "Please answer the request",
 	ongoing: true
 });
         

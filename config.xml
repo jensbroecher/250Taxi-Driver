@@ -19,7 +19,8 @@
 	
 	<icon src="icon.png" />
 		
-	
+	<preference name="exit-on-suspend" value="false" />
+	<preference name="KeepRunning" value="true" />
 		
 	<!-- Core plugins -->
     <gap:plugin name="cordova-plugin-device" source="npm" />

@@ -86,7 +86,9 @@ html, body, #map {
     padding-top: 3px;
 }
 
-#view_taxi_journeyrequest {
+#view_taxi_journeyrequest span, #view_taxi_journeyrequest div  {
+	font-size: 120%;
+	font-weight: bold;
 }
 #journeyrequest {
     text-transform: uppercase;
@@ -111,6 +113,7 @@ html, body, #map {
     font-size: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
+	display: none;
 }
 
 #journey_fare_display {

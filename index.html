@@ -101,25 +101,79 @@ brightness.setKeepScreenOn(true);
 screen.lockOrientation('portrait');
 cordova.plugins.backgroundMode.enable();
 }
+	
+// Reset the account after a journey
+	
+function doresets() {
+	
+// alert('Do reset');
+
+var loggedin = localStorage.getItem('loggedin');
+    
+if (loggedin == 'Yes') {
+	
+	localStorage.removeItem("request_accepted");
+	localStorage.removeItem("journey_status");
+	localStorage.removeItem("passenger_detailed_location_instructions");
+	localStorage.removeItem("passenger_has_boarded_dialog_confirmed");
+	
+    id_no = localStorage.getItem("id_no");    
+    $.get( "http://250taxi.com/db/partner/taxi_login_reset.php?id_no="+id_no+"", function( data ) {
+        console.log("Requests cleared!");
+    });
+}
+
+}
+	
+	
+	
+// Get back to request accepted screen
+
+function recover_request_accepted() {
+	// alert("recover request accepted");
+	hideindicator();
+}
 
 $(document).ready(function() {
     
 getLocationUpdate();
     
 // Resets
-localStorage.removeItem("request_accepted");
-localStorage.removeItem("journey_status");
-localStorage.removeItem("passenger_detailed_location_instructions");
-localStorage.removeItem("passenger_has_boarded_dialog_confirmed");
-    
+	
+// doresets();
+	
 var loggedin = localStorage.getItem('loggedin');
     
 if (loggedin == 'Yes') {
-    id_no = localStorage.getItem("id_no");    
-    $.get( "http://250taxi.com/db/partner/taxi_login_reset.php?id_no="+id_no+"", function( data ) {
-        console.log("Requests cleared!");
-    });
+	
+doresets();
+	
+if("journeyid" in localStorage){
+    // alert('yes journeyid');
+} else {
+    // alert('no journeyid');
+	// doresets();
 }
+	
+if("request_accepted" in localStorage){
+    // alert('yes request_accepted');
+	
+	var clientid = localStorage.getItem('clientid');
+	
+	// alert('clientid '+clientid+'');
+	
+	recover_request_accepted();
+	
+} else {
+    // alert('no request_accepted');
+	// doresets();
+}
+	
+}
+	
+
+    
+
     
 $.get( "http://250taxi.com/db/partner/check_app_update.php?check=driver",  function( data ) {
     var currentversion = "1";
@@ -716,11 +770,11 @@ console.log("Passenger request start")
 // get passenger name from server
 journeyrequest_passenger_name = data;
 		
-cordova.plugins.notification.local.schedule({
-    title: "Journey Request",
-    message: "Please answer the request!",
-	ongoing: false
-});
+// cordova.plugins.notification.local.schedule({
+//     title: "Journey Request",
+//     message: "Please answer the request!",
+// 	ongoing: false
+// });
         
 // Set passenger name in card
 document.getElementById("journeyrequest_passenger_name").innerHTML = journeyrequest_passenger_name;
@@ -889,10 +943,13 @@ if (logout_confirm == true) {
     localStorage.setItem("status", "offline");
     localStorage.removeItem('loggedin');
     responsiveVoice.speak("Good bye!", "UK English Male");
-    
+	
+	id_no = localStorage.getItem("id_no");
+	$.get( "http://250taxi.com/db/partner/taxi_comlink.php?id_no="+id_no+"&status=offline", function( data ) {
     setTimeout(function(){ 
-                goodbye()
-    }, 3000);
+                goodbye();
+    }, 2000);
+	});
     
     function goodbye() {
        location.reload(); 
@@ -918,12 +975,10 @@ if (logout_confirm == true) {
     
 <div id="journeyrequest">
            
-<div id="journeyrequest_header">
+<div id="journeyrequest_header" style="display: none;">
 <span class="lang_show english">Journey Request</span>
 <span class="lang_show rwanda">SABA URUGENDO</span>
 </div>
-                
-<div id="journeyrequest_passenger_name"></div>
                 
 <span class="lang_show english">Distance: </span>
 <span class="lang_show rwanda">AHO UFATIRA UMUGENZI: </span>
@@ -979,9 +1034,9 @@ if (logout_confirm == true) {
     
         localStorage.setItem("request_accepted","Yes");
 		
-cordova.plugins.notification.local.clearAll(function() {
+// cordova.plugins.notification.local.clearAll(function() {
     // alert("done");
-}, this);
+// }, this);
         
         document.getElementById("ja_client_destination").innerHTML = document.getElementById("passenger_destination").innerHTML;
         
@@ -1009,6 +1064,8 @@ cordova.plugins.notification.local.clearAll(function() {
 
 function request_decline() {
 	
+
+	
 // lang checker
 var language = localStorage.getItem("language");
 if (language == "lang_kinyarwanda") {
@@ -1026,6 +1083,9 @@ $.get( "http://250taxi.com/db/partner/taxi_comlink_journey.php?task=decline&id_n
     document.getElementById('view_taxi_journeyaccepted').style.display = 'none';
     document.getElementById('passenger_on_map').style.display = 'none';
     document.getElementById('view_taxi_waiting').style.display = 'block';
+	
+	// Do Resets now as a quick fix - Remove later!!!!
+	doresets();
 });
 
 } else {
@@ -1074,10 +1134,10 @@ cordova.plugins.notification.local.schedule({
           <div class="card">
             <div class="card-content">
 
-        <span style="display:none;">Client Location: <span id="ja_client_location">Loading...</span></span>
+        <span>Pickup: <span id="ja_client_location">Loading...</span></span>
                 
 <span class="lang_show english">ADDITIONAL INSTRUCTIONS:</span>
-<span class="lang_show rwanda">IBISOBANURO BIHAGIJE KU HANTU AGIYE:</span>
+<span class="lang_show rwanda">Ibisobanuro bihagije ku hantu ari:</span>
 				
 <span id="ja_client_instructions">			 
 			 
@@ -1110,21 +1170,25 @@ cordova.plugins.notification.local.schedule({
 <span class="lang_show rwanda">yafashwe</span>
 	
 	</div>
-              
-<div style="background-color:red;" onclick="request_decline();" class="waves-effect waves-light btn">   
-<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
-    <path fill="#FFFFFF" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
-</svg> </div>
-              
-<br><br>
-                
-<span id="phone_button"><a onclick="runinbackground();" id="phone_button_tel" href=""><div class="waves-effect waves-light btn black">   
+			  
+			 <span id="phone_button"><a onclick="runinbackground();" id="phone_button_tel" href=""><div class="waves-effect waves-light btn black">   
 <svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
 <path fill="#FFFFFF" d="M4,3A1,1 0 0,0 3,4A17,17 0 0,0 20,21A1,1 0 0,0 21,20V16.5A1,1 0 0,0 20,15.5C18.75,15.5 17.55,15.3 16.43,14.93C16.08,14.82 15.69,14.9 15.41,15.17L13.21,17.37C10.38,15.93 8.06,13.62 6.62,10.78L8.82,8.57C9.1,8.31 9.18,7.92 9.07,7.57C8.7,6.45 8.5,5.25 8.5,4A1,1 0 0,0 7.5,3H4M15,3V4.5H18.5L13,10L14,11L19.5,5.5V9H21V3H15Z" />
 </svg> 
 <span class="lang_show english">Call</span>
 <span class="lang_show rwanda">HAMAGARA</span>            
 </div></a></span>
+			  
+			 <br><br>
+              
+<div style="background-color:red;" onclick="request_decline();" class="waves-effect waves-light btn">   
+<svg style="width:24px;height:24px;vertical-align:middle;" viewBox="0 0 24 24">
+    <path fill="#FFFFFF" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" />
+</svg> </div>
+              
+
+                
+
                 
                 
 <div onclick="chat();" class="waves-effect waves-light btn black">
@@ -1174,7 +1238,7 @@ Cancel
     
 <div id="journey_fare_display">
 
-<div id="journey_fare_display_km">
+<div id="journey_fare_display_km" style="display: none;">
 
 
 <span class="lang_show english">Driven Kilometers (Estimate):</span>

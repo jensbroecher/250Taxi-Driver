@@ -47,6 +47,10 @@ $(document).ready(function () {
         //Some browsers don't implement checkValidity
         if ((typeof ($theForm[0].checkValidity) == "function") && !$theForm[0].checkValidity()) {
             localStorage.setItem('toast', 'Account not found. Please check your ID Number / Username.');
+			
+			document.getElementById("login_btn_go").className = "waves-effect waves-light btn taxi250";
+	document.getElementById("login_btn_go").style.pointerEvents = "all";
+			
             toast();
             return;
         }
@@ -56,6 +60,10 @@ $(document).ready(function () {
 });
 
 function login_form_go() {
+	
+	// hide button to prevent double click
+	document.getElementById("login_btn_go").className = "waves-effect waves-light btn taxi250 disabled";
+	document.getElementById("login_btn_go").style.pointerEvents = "none";
 
     partner_type = document.getElementById('partner_type').value;
     id_no = document.getElementById('id_no').value;
@@ -70,6 +78,10 @@ function login_form_go() {
             }
             if (data == "account_not_found") {
                 localStorage.setItem('toast', 'Account not found. Please try again.');
+				
+			document.getElementById("login_btn_go").className = "waves-effect waves-light btn taxi250";
+	document.getElementById("login_btn_go").style.pointerEvents = "all";
+				
                 toast();
             }
 
@@ -254,12 +266,17 @@ if (language == "lang_english") {
                         }
                     });
                 } else {
+					document.getElementById("login_btn_go").className = "waves-effect waves-light btn taxi250";
+	document.getElementById("login_btn_go").style.pointerEvents = "all";
                     return;
                 }
             }
         });
     } else {
         alert('Account type not supported yet.');
+		
+		document.getElementById("login_btn_go").className = "waves-effect waves-light btn taxi250";
+	document.getElementById("login_btn_go").style.pointerEvents = "all";
     }
 
 }

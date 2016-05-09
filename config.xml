@@ -37,8 +37,6 @@
     <gap:plugin name="cordova-plugin-brightness" source="npm" />
     
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
-        
-    <gap:plugin name="cordova-plugin-local-notifications-pgb" source="npm" />   
 
     <gap:plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" />
         

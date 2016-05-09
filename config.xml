@@ -11,11 +11,11 @@
 		250 Taxi Partners
     </description>
 
-    <author href="https://www.250taxi.com" email="info@250taxi.com">
-        
-    </author>
+    <author href="https://www.250taxi.com" email="info@250taxi.com"></author>
         
     <platform name="android" />
+    
+    <preference name="android-minSdkVersion" value="14" />
 	
 	<icon src="icon.png" />
 		

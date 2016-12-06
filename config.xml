@@ -2,8 +2,8 @@
     <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.twofiftytaxi.partner"
-        versionCode = "8" 
-        version     = "3.5.0" >
+        versionCode = "9" 
+        version     = "3.5.1" >
 
     <name>Partner</name>
 
